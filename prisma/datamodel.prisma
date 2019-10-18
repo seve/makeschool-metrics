@@ -1,24 +1,25 @@
-type Link {
-  id: ID! @id
-  createdAt: DateTime! @createdAt
-  description: String! 
-  url: String!
-  postedBy: User
-  votes: [Vote!]!
-
-}
-
 type User {
-  id: ID! @id
-  name: String!
-  email: String! @unique
-  password: String!
-  links: [Link!]!
-  votes: [Vote!]!
+  id: ID! @unique
+  username: String! @unique
+  repos: [Repo!]!
+  commits: [Commit!]!
+  pullRequests: [PullRequest!]!
 }
 
-type Vote {
-  id: ID! @id
-  link: Link!
+type Repo {
+  id: ID! @unique
+  name: String!
+  description: String
+  languages: [String!]!
+  stars: Number
+  link: String!
+  commits: [Commit!]!
+}
+
+type Commit {
+  id: ID! @unique
+  message: String!
   user: User!
+  date: String!
+  repo: Repo!
 }
