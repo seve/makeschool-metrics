@@ -11,7 +11,7 @@ type Repo {
   name: String!
   description: String
   languages: [String!]!
-  stars: Number
+  stars: Int
   link: String!
   commits: [Commit!]!
 }
@@ -22,4 +22,11 @@ type Commit {
   user: User!
   date: String!
   repo: Repo!
+}
+
+type PullRequest {
+  id: ID! @unique
+  author: User!
+  title: String!
+  merged: Boolean!
 }

@@ -1,7 +1,14 @@
-const feed = (parent, args, context, info) => {
-  return context.prisma.links();
+const users = (parent, args, context, info) => {
+  // return context.prisma.links();
+  return [];
+};
+
+const repos = (parent, args, context, info) => {
+  // return context.prisma.links();
+  return [];
 };
 
 export default {
-  feed
+  users,
+  repos
 };

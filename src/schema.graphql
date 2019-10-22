@@ -15,7 +15,7 @@ type Repo {
   name: String!
   description: String
   languages: [String!]!
-  stars: Number
+  stars: Int
   link: String!
   commits: [Commit!]!
 }
@@ -28,12 +28,16 @@ type Commit {
   repo: Repo!
 }
 
+type PullRequest {
+  id: ID!
+  author: User!
+  title: String!
+  merged: Boolean!
+}
+
 type Query {
   users: [User!]!
   repos: [Repo!]!
-}
-
-type Mutation {
 }
 
 type Subscription {
