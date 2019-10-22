@@ -1,9 +1,10 @@
 {
   "scripts": {
-    "start": "./node_modules/.bin/babel-node ./src/index.js"
+    "start": "./node_modules/.bin/nodemon ./src/index.js --watch ./src --exec 'node --require dotenv/config --require babel-register'"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
     "github-webhook-handler": "^1.0.0",
     "graphql": "^14.5.8",
     "graphql-subscriptions": "^1.1.0",
