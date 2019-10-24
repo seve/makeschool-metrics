@@ -16,9 +16,10 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
-  link: (where?: LinkWhereInput) => Promise<boolean>;
+  commit: (where?: CommitWhereInput) => Promise<boolean>;
+  pullRequest: (where?: PullRequestWhereInput) => Promise<boolean>;
+  repo: (where?: RepoWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
-  vote: (where?: VoteWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -40,25 +41,65 @@ export interface Prisma {
    * Queries
    */
 
-  link: (where: LinkWhereUniqueInput) => LinkNullablePromise;
-  links: (args?: {
-    where?: LinkWhereInput;
-    orderBy?: LinkOrderByInput;
+  commit: (where: CommitWhereUniqueInput) => CommitNullablePromise;
+  commits: (args?: {
+    where?: CommitWhereInput;
+    orderBy?: CommitOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<Link>;
-  linksConnection: (args?: {
-    where?: LinkWhereInput;
-    orderBy?: LinkOrderByInput;
+  }) => FragmentableArray<Commit>;
+  commitsConnection: (args?: {
+    where?: CommitWhereInput;
+    orderBy?: CommitOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => LinkConnectionPromise;
+  }) => CommitConnectionPromise;
+  pullRequest: (
+    where: PullRequestWhereUniqueInput
+  ) => PullRequestNullablePromise;
+  pullRequests: (args?: {
+    where?: PullRequestWhereInput;
+    orderBy?: PullRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<PullRequest>;
+  pullRequestsConnection: (args?: {
+    where?: PullRequestWhereInput;
+    orderBy?: PullRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => PullRequestConnectionPromise;
+  repo: (where: RepoWhereUniqueInput) => RepoNullablePromise;
+  repoes: (args?: {
+    where?: RepoWhereInput;
+    orderBy?: RepoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Repo>;
+  repoesConnection: (args?: {
+    where?: RepoWhereInput;
+    orderBy?: RepoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => RepoConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -78,47 +119,62 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => UserConnectionPromise;
-  vote: (where: VoteWhereUniqueInput) => VoteNullablePromise;
-  votes: (args?: {
-    where?: VoteWhereInput;
-    orderBy?: VoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Vote>;
-  votesConnection: (args?: {
-    where?: VoteWhereInput;
-    orderBy?: VoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => VoteConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
    * Mutations
    */
 
-  createLink: (data: LinkCreateInput) => LinkPromise;
-  updateLink: (args: {
-    data: LinkUpdateInput;
-    where: LinkWhereUniqueInput;
-  }) => LinkPromise;
-  updateManyLinks: (args: {
-    data: LinkUpdateManyMutationInput;
-    where?: LinkWhereInput;
+  createCommit: (data: CommitCreateInput) => CommitPromise;
+  updateCommit: (args: {
+    data: CommitUpdateInput;
+    where: CommitWhereUniqueInput;
+  }) => CommitPromise;
+  updateManyCommits: (args: {
+    data: CommitUpdateManyMutationInput;
+    where?: CommitWhereInput;
   }) => BatchPayloadPromise;
-  upsertLink: (args: {
-    where: LinkWhereUniqueInput;
-    create: LinkCreateInput;
-    update: LinkUpdateInput;
-  }) => LinkPromise;
-  deleteLink: (where: LinkWhereUniqueInput) => LinkPromise;
-  deleteManyLinks: (where?: LinkWhereInput) => BatchPayloadPromise;
+  upsertCommit: (args: {
+    where: CommitWhereUniqueInput;
+    create: CommitCreateInput;
+    update: CommitUpdateInput;
+  }) => CommitPromise;
+  deleteCommit: (where: CommitWhereUniqueInput) => CommitPromise;
+  deleteManyCommits: (where?: CommitWhereInput) => BatchPayloadPromise;
+  createPullRequest: (data: PullRequestCreateInput) => PullRequestPromise;
+  updatePullRequest: (args: {
+    data: PullRequestUpdateInput;
+    where: PullRequestWhereUniqueInput;
+  }) => PullRequestPromise;
+  updateManyPullRequests: (args: {
+    data: PullRequestUpdateManyMutationInput;
+    where?: PullRequestWhereInput;
+  }) => BatchPayloadPromise;
+  upsertPullRequest: (args: {
+    where: PullRequestWhereUniqueInput;
+    create: PullRequestCreateInput;
+    update: PullRequestUpdateInput;
+  }) => PullRequestPromise;
+  deletePullRequest: (where: PullRequestWhereUniqueInput) => PullRequestPromise;
+  deleteManyPullRequests: (
+    where?: PullRequestWhereInput
+  ) => BatchPayloadPromise;
+  createRepo: (data: RepoCreateInput) => RepoPromise;
+  updateRepo: (args: {
+    data: RepoUpdateInput;
+    where: RepoWhereUniqueInput;
+  }) => RepoPromise;
+  updateManyRepoes: (args: {
+    data: RepoUpdateManyMutationInput;
+    where?: RepoWhereInput;
+  }) => BatchPayloadPromise;
+  upsertRepo: (args: {
+    where: RepoWhereUniqueInput;
+    create: RepoCreateInput;
+    update: RepoUpdateInput;
+  }) => RepoPromise;
+  deleteRepo: (where: RepoWhereUniqueInput) => RepoPromise;
+  deleteManyRepoes: (where?: RepoWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -135,18 +191,6 @@ export interface Prisma {
   }) => UserPromise;
   deleteUser: (where: UserWhereUniqueInput) => UserPromise;
   deleteManyUsers: (where?: UserWhereInput) => BatchPayloadPromise;
-  createVote: (data: VoteCreateInput) => VotePromise;
-  updateVote: (args: {
-    data: VoteUpdateInput;
-    where: VoteWhereUniqueInput;
-  }) => VotePromise;
-  upsertVote: (args: {
-    where: VoteWhereUniqueInput;
-    create: VoteCreateInput;
-    update: VoteUpdateInput;
-  }) => VotePromise;
-  deleteVote: (where: VoteWhereUniqueInput) => VotePromise;
-  deleteManyVotes: (where?: VoteWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -156,15 +200,18 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  link: (
-    where?: LinkSubscriptionWhereInput
-  ) => LinkSubscriptionPayloadSubscription;
+  commit: (
+    where?: CommitSubscriptionWhereInput
+  ) => CommitSubscriptionPayloadSubscription;
+  pullRequest: (
+    where?: PullRequestSubscriptionWhereInput
+  ) => PullRequestSubscriptionPayloadSubscription;
+  repo: (
+    where?: RepoSubscriptionWhereInput
+  ) => RepoSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
-  vote: (
-    where?: VoteSubscriptionWhereInput
-  ) => VoteSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -175,49 +222,58 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type LinkOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "description_ASC"
-  | "description_DESC"
-  | "url_ASC"
-  | "url_DESC";
-
-export type VoteOrderByInput = "id_ASC" | "id_DESC";
-
-export type UserOrderByInput =
+export type RepoOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "name_ASC"
   | "name_DESC"
-  | "email_ASC"
-  | "email_DESC"
-  | "password_ASC"
-  | "password_DESC";
+  | "description_ASC"
+  | "description_DESC"
+  | "stars_ASC"
+  | "stars_DESC"
+  | "link_ASC"
+  | "link_DESC";
+
+export type CommitOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "message_ASC"
+  | "message_DESC"
+  | "date_ASC"
+  | "date_DESC";
+
+export type PullRequestOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "merged_ASC"
+  | "merged_DESC";
+
+export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "username_ASC"
+  | "username_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface UserUpdateOneWithoutLinksInput {
-  create?: Maybe<UserCreateWithoutLinksInput>;
-  update?: Maybe<UserUpdateWithoutLinksDataInput>;
-  upsert?: Maybe<UserUpsertWithoutLinksInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface CommitUpdateWithoutRepoDataInput {
+  message?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredWithoutCommitsInput>;
+  date?: Maybe<String>;
 }
 
-export type LinkWhereUniqueInput = AtLeastOne<{
+export type CommitWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface VoteUpdateWithWhereUniqueWithoutUserInput {
-  where: VoteWhereUniqueInput;
-  data: VoteUpdateWithoutUserDataInput;
+export interface CommitUpdateManyWithWhereNestedInput {
+  where: CommitScalarWhereInput;
+  data: CommitUpdateManyDataInput;
 }
 
-export interface LinkWhereInput {
+export interface CommitWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -232,102 +288,112 @@ export interface LinkWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  url?: Maybe<String>;
-  url_not?: Maybe<String>;
-  url_in?: Maybe<String[] | String>;
-  url_not_in?: Maybe<String[] | String>;
-  url_lt?: Maybe<String>;
-  url_lte?: Maybe<String>;
-  url_gt?: Maybe<String>;
-  url_gte?: Maybe<String>;
-  url_contains?: Maybe<String>;
-  url_not_contains?: Maybe<String>;
-  url_starts_with?: Maybe<String>;
-  url_not_starts_with?: Maybe<String>;
-  url_ends_with?: Maybe<String>;
-  url_not_ends_with?: Maybe<String>;
-  postedBy?: Maybe<UserWhereInput>;
-  votes_every?: Maybe<VoteWhereInput>;
-  votes_some?: Maybe<VoteWhereInput>;
-  votes_none?: Maybe<VoteWhereInput>;
-  AND?: Maybe<LinkWhereInput[] | LinkWhereInput>;
-  OR?: Maybe<LinkWhereInput[] | LinkWhereInput>;
-  NOT?: Maybe<LinkWhereInput[] | LinkWhereInput>;
-}
-
-export interface VoteUpdateWithoutUserDataInput {
-  link?: Maybe<LinkUpdateOneRequiredWithoutVotesInput>;
-}
-
-export interface VoteWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  link?: Maybe<LinkWhereInput>;
+  message?: Maybe<String>;
+  message_not?: Maybe<String>;
+  message_in?: Maybe<String[] | String>;
+  message_not_in?: Maybe<String[] | String>;
+  message_lt?: Maybe<String>;
+  message_lte?: Maybe<String>;
+  message_gt?: Maybe<String>;
+  message_gte?: Maybe<String>;
+  message_contains?: Maybe<String>;
+  message_not_contains?: Maybe<String>;
+  message_starts_with?: Maybe<String>;
+  message_not_starts_with?: Maybe<String>;
+  message_ends_with?: Maybe<String>;
+  message_not_ends_with?: Maybe<String>;
   user?: Maybe<UserWhereInput>;
-  AND?: Maybe<VoteWhereInput[] | VoteWhereInput>;
-  OR?: Maybe<VoteWhereInput[] | VoteWhereInput>;
-  NOT?: Maybe<VoteWhereInput[] | VoteWhereInput>;
+  date?: Maybe<String>;
+  date_not?: Maybe<String>;
+  date_in?: Maybe<String[] | String>;
+  date_not_in?: Maybe<String[] | String>;
+  date_lt?: Maybe<String>;
+  date_lte?: Maybe<String>;
+  date_gt?: Maybe<String>;
+  date_gte?: Maybe<String>;
+  date_contains?: Maybe<String>;
+  date_not_contains?: Maybe<String>;
+  date_starts_with?: Maybe<String>;
+  date_not_starts_with?: Maybe<String>;
+  date_ends_with?: Maybe<String>;
+  date_not_ends_with?: Maybe<String>;
+  repo?: Maybe<RepoWhereInput>;
+  AND?: Maybe<CommitWhereInput[] | CommitWhereInput>;
+  OR?: Maybe<CommitWhereInput[] | CommitWhereInput>;
+  NOT?: Maybe<CommitWhereInput[] | CommitWhereInput>;
 }
 
-export interface VoteCreateManyWithoutLinkInput {
-  create?: Maybe<VoteCreateWithoutLinkInput[] | VoteCreateWithoutLinkInput>;
-  connect?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
+export interface CommitUpdateManyDataInput {
+  message?: Maybe<String>;
+  date?: Maybe<String>;
 }
 
-export interface LinkUpdateWithWhereUniqueWithoutPostedByInput {
-  where: LinkWhereUniqueInput;
-  data: LinkUpdateWithoutPostedByDataInput;
-}
-
-export interface VoteCreateWithoutLinkInput {
+export interface PullRequestWhereInput {
   id?: Maybe<ID_Input>;
-  user: UserCreateOneWithoutVotesInput;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  author?: Maybe<UserWhereInput>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  merged?: Maybe<Boolean>;
+  merged_not?: Maybe<Boolean>;
+  AND?: Maybe<PullRequestWhereInput[] | PullRequestWhereInput>;
+  OR?: Maybe<PullRequestWhereInput[] | PullRequestWhereInput>;
+  NOT?: Maybe<PullRequestWhereInput[] | PullRequestWhereInput>;
 }
 
-export interface LinkUpdateOneRequiredWithoutVotesInput {
-  create?: Maybe<LinkCreateWithoutVotesInput>;
-  update?: Maybe<LinkUpdateWithoutVotesDataInput>;
-  upsert?: Maybe<LinkUpsertWithoutVotesInput>;
-  connect?: Maybe<LinkWhereUniqueInput>;
+export interface CommitUpdateInput {
+  message?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredWithoutCommitsInput>;
+  date?: Maybe<String>;
+  repo?: Maybe<RepoUpdateOneRequiredWithoutCommitsInput>;
 }
 
-export interface UserCreateOneWithoutVotesInput {
-  create?: Maybe<UserCreateWithoutVotesInput>;
+export interface UserCreateOneWithoutPullRequestsInput {
+  create?: Maybe<UserCreateWithoutPullRequestsInput>;
   connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutCommitsInput {
+  create?: Maybe<UserCreateWithoutCommitsInput>;
+  update?: Maybe<UserUpdateWithoutCommitsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutCommitsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface RepoUpsertWithWhereUniqueNestedInput {
+  where: RepoWhereUniqueInput;
+  update: RepoUpdateDataInput;
+  create: RepoCreateInput;
+}
+
+export interface UserUpdateWithoutCommitsDataInput {
+  username?: Maybe<String>;
+  repos?: Maybe<RepoUpdateManyInput>;
+  pullRequests?: Maybe<PullRequestUpdateManyWithoutAuthorInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -341,60 +407,135 @@ export interface UserSubscriptionWhereInput {
   NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
-export interface UserCreateWithoutVotesInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  email: String;
-  password: String;
-  links?: Maybe<LinkCreateManyWithoutPostedByInput>;
-}
-
-export interface VoteUpdateInput {
-  link?: Maybe<LinkUpdateOneRequiredWithoutVotesInput>;
-  user?: Maybe<UserUpdateOneRequiredWithoutVotesInput>;
-}
-
-export interface LinkCreateManyWithoutPostedByInput {
-  create?: Maybe<
-    LinkCreateWithoutPostedByInput[] | LinkCreateWithoutPostedByInput
+export interface RepoUpdateManyInput {
+  create?: Maybe<RepoCreateInput[] | RepoCreateInput>;
+  update?: Maybe<
+    | RepoUpdateWithWhereUniqueNestedInput[]
+    | RepoUpdateWithWhereUniqueNestedInput
   >;
-  connect?: Maybe<LinkWhereUniqueInput[] | LinkWhereUniqueInput>;
+  upsert?: Maybe<
+    | RepoUpsertWithWhereUniqueNestedInput[]
+    | RepoUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
+  connect?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
+  set?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
+  disconnect?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
+  deleteMany?: Maybe<RepoScalarWhereInput[] | RepoScalarWhereInput>;
+  updateMany?: Maybe<
+    RepoUpdateManyWithWhereNestedInput[] | RepoUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface PullRequestSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<PullRequestWhereInput>;
+  AND?: Maybe<
+    PullRequestSubscriptionWhereInput[] | PullRequestSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    PullRequestSubscriptionWhereInput[] | PullRequestSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    PullRequestSubscriptionWhereInput[] | PullRequestSubscriptionWhereInput
+  >;
+}
+
+export interface RepoUpdateWithWhereUniqueNestedInput {
+  where: RepoWhereUniqueInput;
+  data: RepoUpdateDataInput;
 }
 
 export interface UserUpdateManyMutationInput {
+  username?: Maybe<String>;
+}
+
+export interface RepoUpdateDataInput {
   name?: Maybe<String>;
-  email?: Maybe<String>;
-  password?: Maybe<String>;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoUpdatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link?: Maybe<String>;
+  commits?: Maybe<CommitUpdateManyWithoutRepoInput>;
 }
 
-export interface LinkCreateWithoutPostedByInput {
-  id?: Maybe<ID_Input>;
-  description: String;
-  url: String;
-  votes?: Maybe<VoteCreateManyWithoutLinkInput>;
+export type PullRequestWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface RepoUpdatelanguagesInput {
+  set?: Maybe<String[] | String>;
 }
 
-export interface UserUpdateInput {
+export interface RepoUpdateManyMutationInput {
   name?: Maybe<String>;
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  links?: Maybe<LinkUpdateManyWithoutPostedByInput>;
-  votes?: Maybe<VoteUpdateManyWithoutUserInput>;
-}
-
-export interface LinkUpdateInput {
   description?: Maybe<String>;
-  url?: Maybe<String>;
-  postedBy?: Maybe<UserUpdateOneWithoutLinksInput>;
-  votes?: Maybe<VoteUpdateManyWithoutLinkInput>;
+  languages?: Maybe<RepoUpdatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link?: Maybe<String>;
 }
 
-export interface LinkUpdateManyMutationInput {
-  description?: Maybe<String>;
-  url?: Maybe<String>;
+export interface CommitUpdateManyWithoutRepoInput {
+  create?: Maybe<CommitCreateWithoutRepoInput[] | CommitCreateWithoutRepoInput>;
+  delete?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  connect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  set?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  disconnect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  update?: Maybe<
+    | CommitUpdateWithWhereUniqueWithoutRepoInput[]
+    | CommitUpdateWithWhereUniqueWithoutRepoInput
+  >;
+  upsert?: Maybe<
+    | CommitUpsertWithWhereUniqueWithoutRepoInput[]
+    | CommitUpsertWithWhereUniqueWithoutRepoInput
+  >;
+  deleteMany?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
+  updateMany?: Maybe<
+    | CommitUpdateManyWithWhereNestedInput[]
+    | CommitUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface LinkScalarWhereInput {
+export type RepoWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface CommitUpdateWithWhereUniqueWithoutRepoInput {
+  where: CommitWhereUniqueInput;
+  data: CommitUpdateWithoutRepoDataInput;
+}
+
+export interface UserUpsertWithoutPullRequestsInput {
+  update: UserUpdateWithoutPullRequestsDataInput;
+  create: UserCreateWithoutPullRequestsInput;
+}
+
+export interface UserUpdateOneRequiredWithoutPullRequestsInput {
+  create?: Maybe<UserCreateWithoutPullRequestsInput>;
+  update?: Maybe<UserUpdateWithoutPullRequestsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutPullRequestsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface CommitUpsertWithWhereUniqueWithoutRepoInput {
+  where: CommitWhereUniqueInput;
+  update: CommitUpdateWithoutRepoDataInput;
+  create: CommitCreateWithoutRepoInput;
+}
+
+export interface CommitUpdateWithWhereUniqueWithoutUserInput {
+  where: CommitWhereUniqueInput;
+  data: CommitUpdateWithoutUserDataInput;
+}
+
+export interface CommitScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -409,86 +550,127 @@ export interface LinkScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  url?: Maybe<String>;
-  url_not?: Maybe<String>;
-  url_in?: Maybe<String[] | String>;
-  url_not_in?: Maybe<String[] | String>;
-  url_lt?: Maybe<String>;
-  url_lte?: Maybe<String>;
-  url_gt?: Maybe<String>;
-  url_gte?: Maybe<String>;
-  url_contains?: Maybe<String>;
-  url_not_contains?: Maybe<String>;
-  url_starts_with?: Maybe<String>;
-  url_not_starts_with?: Maybe<String>;
-  url_ends_with?: Maybe<String>;
-  url_not_ends_with?: Maybe<String>;
-  AND?: Maybe<LinkScalarWhereInput[] | LinkScalarWhereInput>;
-  OR?: Maybe<LinkScalarWhereInput[] | LinkScalarWhereInput>;
-  NOT?: Maybe<LinkScalarWhereInput[] | LinkScalarWhereInput>;
+  message?: Maybe<String>;
+  message_not?: Maybe<String>;
+  message_in?: Maybe<String[] | String>;
+  message_not_in?: Maybe<String[] | String>;
+  message_lt?: Maybe<String>;
+  message_lte?: Maybe<String>;
+  message_gt?: Maybe<String>;
+  message_gte?: Maybe<String>;
+  message_contains?: Maybe<String>;
+  message_not_contains?: Maybe<String>;
+  message_starts_with?: Maybe<String>;
+  message_not_starts_with?: Maybe<String>;
+  message_ends_with?: Maybe<String>;
+  message_not_ends_with?: Maybe<String>;
+  date?: Maybe<String>;
+  date_not?: Maybe<String>;
+  date_in?: Maybe<String[] | String>;
+  date_not_in?: Maybe<String[] | String>;
+  date_lt?: Maybe<String>;
+  date_lte?: Maybe<String>;
+  date_gt?: Maybe<String>;
+  date_gte?: Maybe<String>;
+  date_contains?: Maybe<String>;
+  date_not_contains?: Maybe<String>;
+  date_starts_with?: Maybe<String>;
+  date_not_starts_with?: Maybe<String>;
+  date_ends_with?: Maybe<String>;
+  date_not_ends_with?: Maybe<String>;
+  AND?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
+  OR?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
+  NOT?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
 }
 
-export type VoteWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface UserUpdateWithoutLinksDataInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  votes?: Maybe<VoteUpdateManyWithoutUserInput>;
-}
-
-export interface LinkUpdateManyDataInput {
-  description?: Maybe<String>;
-  url?: Maybe<String>;
-}
-
-export interface VoteUpdateManyWithoutUserInput {
-  create?: Maybe<VoteCreateWithoutUserInput[] | VoteCreateWithoutUserInput>;
-  delete?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
-  connect?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
-  set?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
-  disconnect?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
-  update?: Maybe<
-    | VoteUpdateWithWhereUniqueWithoutUserInput[]
-    | VoteUpdateWithWhereUniqueWithoutUserInput
-  >;
-  upsert?: Maybe<
-    | VoteUpsertWithWhereUniqueWithoutUserInput[]
-    | VoteUpsertWithWhereUniqueWithoutUserInput
-  >;
-  deleteMany?: Maybe<VoteScalarWhereInput[] | VoteScalarWhereInput>;
-}
-
-export interface UserCreateOneWithoutLinksInput {
-  create?: Maybe<UserCreateWithoutLinksInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface UserUpdateWithoutPullRequestsDataInput {
+  username?: Maybe<String>;
+  repos?: Maybe<RepoUpdateManyInput>;
+  commits?: Maybe<CommitUpdateManyWithoutUserInput>;
 }
 
 export interface UserWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  username?: Maybe<String>;
+  username_not?: Maybe<String>;
+  username_in?: Maybe<String[] | String>;
+  username_not_in?: Maybe<String[] | String>;
+  username_lt?: Maybe<String>;
+  username_lte?: Maybe<String>;
+  username_gt?: Maybe<String>;
+  username_gte?: Maybe<String>;
+  username_contains?: Maybe<String>;
+  username_not_contains?: Maybe<String>;
+  username_starts_with?: Maybe<String>;
+  username_not_starts_with?: Maybe<String>;
+  username_ends_with?: Maybe<String>;
+  username_not_ends_with?: Maybe<String>;
+  repos_every?: Maybe<RepoWhereInput>;
+  repos_some?: Maybe<RepoWhereInput>;
+  repos_none?: Maybe<RepoWhereInput>;
+  commits_every?: Maybe<CommitWhereInput>;
+  commits_some?: Maybe<CommitWhereInput>;
+  commits_none?: Maybe<CommitWhereInput>;
+  pullRequests_every?: Maybe<PullRequestWhereInput>;
+  pullRequests_some?: Maybe<PullRequestWhereInput>;
+  pullRequests_none?: Maybe<PullRequestWhereInput>;
+  AND?: Maybe<UserWhereInput[] | UserWhereInput>;
+  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
+  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
+}
+
+export interface CommitCreateInput {
+  id?: Maybe<ID_Input>;
+  message: String;
+  user: UserCreateOneWithoutCommitsInput;
+  date: String;
+  repo: RepoCreateOneWithoutCommitsInput;
+}
+
+export interface PullRequestUpdateInput {
+  author?: Maybe<UserUpdateOneRequiredWithoutPullRequestsInput>;
+  title?: Maybe<String>;
+  merged?: Maybe<Boolean>;
+}
+
+export interface UserCreateWithoutCommitsInput {
+  id?: Maybe<ID_Input>;
+  username: String;
+  repos?: Maybe<RepoCreateManyInput>;
+  pullRequests?: Maybe<PullRequestCreateManyWithoutAuthorInput>;
+}
+
+export interface CommitCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  message: String;
+  date: String;
+  repo: RepoCreateOneWithoutCommitsInput;
+}
+
+export interface RepoCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoCreatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link: String;
+  commits?: Maybe<CommitCreateManyWithoutRepoInput>;
+}
+
+export interface RepoScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -517,116 +699,105 @@ export interface UserWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
-  email?: Maybe<String>;
-  email_not?: Maybe<String>;
-  email_in?: Maybe<String[] | String>;
-  email_not_in?: Maybe<String[] | String>;
-  email_lt?: Maybe<String>;
-  email_lte?: Maybe<String>;
-  email_gt?: Maybe<String>;
-  email_gte?: Maybe<String>;
-  email_contains?: Maybe<String>;
-  email_not_contains?: Maybe<String>;
-  email_starts_with?: Maybe<String>;
-  email_not_starts_with?: Maybe<String>;
-  email_ends_with?: Maybe<String>;
-  email_not_ends_with?: Maybe<String>;
-  password?: Maybe<String>;
-  password_not?: Maybe<String>;
-  password_in?: Maybe<String[] | String>;
-  password_not_in?: Maybe<String[] | String>;
-  password_lt?: Maybe<String>;
-  password_lte?: Maybe<String>;
-  password_gt?: Maybe<String>;
-  password_gte?: Maybe<String>;
-  password_contains?: Maybe<String>;
-  password_not_contains?: Maybe<String>;
-  password_starts_with?: Maybe<String>;
-  password_not_starts_with?: Maybe<String>;
-  password_ends_with?: Maybe<String>;
-  password_not_ends_with?: Maybe<String>;
-  links_every?: Maybe<LinkWhereInput>;
-  links_some?: Maybe<LinkWhereInput>;
-  links_none?: Maybe<LinkWhereInput>;
-  votes_every?: Maybe<VoteWhereInput>;
-  votes_some?: Maybe<VoteWhereInput>;
-  votes_none?: Maybe<VoteWhereInput>;
-  AND?: Maybe<UserWhereInput[] | UserWhereInput>;
-  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
-  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
-}
-
-export interface VoteCreateManyWithoutUserInput {
-  create?: Maybe<VoteCreateWithoutUserInput[] | VoteCreateWithoutUserInput>;
-  connect?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
-}
-
-export interface LinkUpsertWithWhereUniqueWithoutPostedByInput {
-  where: LinkWhereUniqueInput;
-  update: LinkUpdateWithoutPostedByDataInput;
-  create: LinkCreateWithoutPostedByInput;
-}
-
-export interface LinkCreateOneWithoutVotesInput {
-  create?: Maybe<LinkCreateWithoutVotesInput>;
-  connect?: Maybe<LinkWhereUniqueInput>;
-}
-
-export interface LinkUpdateWithoutPostedByDataInput {
   description?: Maybe<String>;
-  url?: Maybe<String>;
-  votes?: Maybe<VoteUpdateManyWithoutLinkInput>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  stars?: Maybe<Int>;
+  stars_not?: Maybe<Int>;
+  stars_in?: Maybe<Int[] | Int>;
+  stars_not_in?: Maybe<Int[] | Int>;
+  stars_lt?: Maybe<Int>;
+  stars_lte?: Maybe<Int>;
+  stars_gt?: Maybe<Int>;
+  stars_gte?: Maybe<Int>;
+  link?: Maybe<String>;
+  link_not?: Maybe<String>;
+  link_in?: Maybe<String[] | String>;
+  link_not_in?: Maybe<String[] | String>;
+  link_lt?: Maybe<String>;
+  link_lte?: Maybe<String>;
+  link_gt?: Maybe<String>;
+  link_gte?: Maybe<String>;
+  link_contains?: Maybe<String>;
+  link_not_contains?: Maybe<String>;
+  link_starts_with?: Maybe<String>;
+  link_not_starts_with?: Maybe<String>;
+  link_ends_with?: Maybe<String>;
+  link_not_ends_with?: Maybe<String>;
+  AND?: Maybe<RepoScalarWhereInput[] | RepoScalarWhereInput>;
+  OR?: Maybe<RepoScalarWhereInput[] | RepoScalarWhereInput>;
+  NOT?: Maybe<RepoScalarWhereInput[] | RepoScalarWhereInput>;
 }
 
-export interface VoteSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<VoteWhereInput>;
-  AND?: Maybe<VoteSubscriptionWhereInput[] | VoteSubscriptionWhereInput>;
-  OR?: Maybe<VoteSubscriptionWhereInput[] | VoteSubscriptionWhereInput>;
-  NOT?: Maybe<VoteSubscriptionWhereInput[] | VoteSubscriptionWhereInput>;
+export interface CommitCreateManyWithoutRepoInput {
+  create?: Maybe<CommitCreateWithoutRepoInput[] | CommitCreateWithoutRepoInput>;
+  connect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
 }
 
-export interface LinkUpdateWithoutVotesDataInput {
+export interface RepoUpdateManyWithWhereNestedInput {
+  where: RepoScalarWhereInput;
+  data: RepoUpdateManyDataInput;
+}
+
+export interface PullRequestCreateManyWithoutAuthorInput {
+  create?: Maybe<
+    PullRequestCreateWithoutAuthorInput[] | PullRequestCreateWithoutAuthorInput
+  >;
+  connect?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
+}
+
+export interface RepoUpdateManyDataInput {
+  name?: Maybe<String>;
   description?: Maybe<String>;
-  url?: Maybe<String>;
-  postedBy?: Maybe<UserUpdateOneWithoutLinksInput>;
+  languages?: Maybe<RepoUpdatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link?: Maybe<String>;
 }
 
-export interface VoteCreateInput {
-  id?: Maybe<ID_Input>;
-  link: LinkCreateOneWithoutVotesInput;
-  user: UserCreateOneWithoutVotesInput;
+export interface RepoCreateOneWithoutCommitsInput {
+  create?: Maybe<RepoCreateWithoutCommitsInput>;
+  connect?: Maybe<RepoWhereUniqueInput>;
 }
 
-export interface LinkUpsertWithoutVotesInput {
-  update: LinkUpdateWithoutVotesDataInput;
-  create: LinkCreateWithoutVotesInput;
+export interface PullRequestUpdateManyWithoutAuthorInput {
+  create?: Maybe<
+    PullRequestCreateWithoutAuthorInput[] | PullRequestCreateWithoutAuthorInput
+  >;
+  delete?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
+  connect?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
+  set?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
+  disconnect?: Maybe<
+    PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput
+  >;
+  update?: Maybe<
+    | PullRequestUpdateWithWhereUniqueWithoutAuthorInput[]
+    | PullRequestUpdateWithWhereUniqueWithoutAuthorInput
+  >;
+  upsert?: Maybe<
+    | PullRequestUpsertWithWhereUniqueWithoutAuthorInput[]
+    | PullRequestUpsertWithWhereUniqueWithoutAuthorInput
+  >;
+  deleteMany?: Maybe<
+    PullRequestScalarWhereInput[] | PullRequestScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | PullRequestUpdateManyWithWhereNestedInput[]
+    | PullRequestUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  email: String;
-  password: String;
-  links?: Maybe<LinkCreateManyWithoutPostedByInput>;
-  votes?: Maybe<VoteCreateManyWithoutUserInput>;
-}
-
-export interface VoteUpsertWithWhereUniqueWithoutUserInput {
-  where: VoteWhereUniqueInput;
-  update: VoteUpdateWithoutUserDataInput;
-  create: VoteCreateWithoutUserInput;
-}
-
-export interface UserUpsertWithoutVotesInput {
-  update: UserUpdateWithoutVotesDataInput;
-  create: UserCreateWithoutVotesInput;
-}
-
-export interface VoteScalarWhereInput {
+export interface RepoWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -641,374 +812,413 @@ export interface VoteScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  AND?: Maybe<VoteScalarWhereInput[] | VoteScalarWhereInput>;
-  OR?: Maybe<VoteScalarWhereInput[] | VoteScalarWhereInput>;
-  NOT?: Maybe<VoteScalarWhereInput[] | VoteScalarWhereInput>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  stars?: Maybe<Int>;
+  stars_not?: Maybe<Int>;
+  stars_in?: Maybe<Int[] | Int>;
+  stars_not_in?: Maybe<Int[] | Int>;
+  stars_lt?: Maybe<Int>;
+  stars_lte?: Maybe<Int>;
+  stars_gt?: Maybe<Int>;
+  stars_gte?: Maybe<Int>;
+  link?: Maybe<String>;
+  link_not?: Maybe<String>;
+  link_in?: Maybe<String[] | String>;
+  link_not_in?: Maybe<String[] | String>;
+  link_lt?: Maybe<String>;
+  link_lte?: Maybe<String>;
+  link_gt?: Maybe<String>;
+  link_gte?: Maybe<String>;
+  link_contains?: Maybe<String>;
+  link_not_contains?: Maybe<String>;
+  link_starts_with?: Maybe<String>;
+  link_not_starts_with?: Maybe<String>;
+  link_ends_with?: Maybe<String>;
+  link_not_ends_with?: Maybe<String>;
+  commits_every?: Maybe<CommitWhereInput>;
+  commits_some?: Maybe<CommitWhereInput>;
+  commits_none?: Maybe<CommitWhereInput>;
+  AND?: Maybe<RepoWhereInput[] | RepoWhereInput>;
+  OR?: Maybe<RepoWhereInput[] | RepoWhereInput>;
+  NOT?: Maybe<RepoWhereInput[] | RepoWhereInput>;
 }
 
-export interface LinkCreateInput {
-  id?: Maybe<ID_Input>;
-  description: String;
-  url: String;
-  postedBy?: Maybe<UserCreateOneWithoutLinksInput>;
-  votes?: Maybe<VoteCreateManyWithoutLinkInput>;
+export interface PullRequestUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PullRequestWhereUniqueInput;
+  data: PullRequestUpdateWithoutAuthorDataInput;
 }
 
-export interface UserUpsertWithoutLinksInput {
-  update: UserUpdateWithoutLinksDataInput;
-  create: UserCreateWithoutLinksInput;
-}
-
-export interface VoteCreateWithoutUserInput {
-  id?: Maybe<ID_Input>;
-  link: LinkCreateOneWithoutVotesInput;
-}
-
-export interface VoteUpdateManyWithoutLinkInput {
-  create?: Maybe<VoteCreateWithoutLinkInput[] | VoteCreateWithoutLinkInput>;
-  delete?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
-  connect?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
-  set?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
-  disconnect?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
-  update?: Maybe<
-    | VoteUpdateWithWhereUniqueWithoutLinkInput[]
-    | VoteUpdateWithWhereUniqueWithoutLinkInput
-  >;
-  upsert?: Maybe<
-    | VoteUpsertWithWhereUniqueWithoutLinkInput[]
-    | VoteUpsertWithWhereUniqueWithoutLinkInput
-  >;
-  deleteMany?: Maybe<VoteScalarWhereInput[] | VoteScalarWhereInput>;
-}
-
-export interface LinkSubscriptionWhereInput {
+export interface CommitSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<LinkWhereInput>;
-  AND?: Maybe<LinkSubscriptionWhereInput[] | LinkSubscriptionWhereInput>;
-  OR?: Maybe<LinkSubscriptionWhereInput[] | LinkSubscriptionWhereInput>;
-  NOT?: Maybe<LinkSubscriptionWhereInput[] | LinkSubscriptionWhereInput>;
+  node?: Maybe<CommitWhereInput>;
+  AND?: Maybe<CommitSubscriptionWhereInput[] | CommitSubscriptionWhereInput>;
+  OR?: Maybe<CommitSubscriptionWhereInput[] | CommitSubscriptionWhereInput>;
+  NOT?: Maybe<CommitSubscriptionWhereInput[] | CommitSubscriptionWhereInput>;
 }
 
-export interface VoteUpdateWithWhereUniqueWithoutLinkInput {
-  where: VoteWhereUniqueInput;
-  data: VoteUpdateWithoutLinkDataInput;
+export interface PullRequestUpdateWithoutAuthorDataInput {
+  title?: Maybe<String>;
+  merged?: Maybe<Boolean>;
 }
 
-export interface VoteUpsertWithWhereUniqueWithoutLinkInput {
-  where: VoteWhereUniqueInput;
-  update: VoteUpdateWithoutLinkDataInput;
-  create: VoteCreateWithoutLinkInput;
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  username: String;
+  repos?: Maybe<RepoCreateManyInput>;
+  commits?: Maybe<CommitCreateManyWithoutUserInput>;
+  pullRequests?: Maybe<PullRequestCreateManyWithoutAuthorInput>;
 }
 
-export interface LinkUpdateManyWithoutPostedByInput {
-  create?: Maybe<
-    LinkCreateWithoutPostedByInput[] | LinkCreateWithoutPostedByInput
-  >;
-  delete?: Maybe<LinkWhereUniqueInput[] | LinkWhereUniqueInput>;
-  connect?: Maybe<LinkWhereUniqueInput[] | LinkWhereUniqueInput>;
-  set?: Maybe<LinkWhereUniqueInput[] | LinkWhereUniqueInput>;
-  disconnect?: Maybe<LinkWhereUniqueInput[] | LinkWhereUniqueInput>;
-  update?: Maybe<
-    | LinkUpdateWithWhereUniqueWithoutPostedByInput[]
-    | LinkUpdateWithWhereUniqueWithoutPostedByInput
-  >;
-  upsert?: Maybe<
-    | LinkUpsertWithWhereUniqueWithoutPostedByInput[]
-    | LinkUpsertWithWhereUniqueWithoutPostedByInput
-  >;
-  deleteMany?: Maybe<LinkScalarWhereInput[] | LinkScalarWhereInput>;
-  updateMany?: Maybe<
-    LinkUpdateManyWithWhereNestedInput[] | LinkUpdateManyWithWhereNestedInput
-  >;
+export interface PullRequestUpsertWithWhereUniqueWithoutAuthorInput {
+  where: PullRequestWhereUniqueInput;
+  update: PullRequestUpdateWithoutAuthorDataInput;
+  create: PullRequestCreateWithoutAuthorInput;
 }
 
-export interface UserUpdateWithoutVotesDataInput {
+export interface PullRequestUpdateManyMutationInput {
+  title?: Maybe<String>;
+  merged?: Maybe<Boolean>;
+}
+
+export interface PullRequestScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  merged?: Maybe<Boolean>;
+  merged_not?: Maybe<Boolean>;
+  AND?: Maybe<PullRequestScalarWhereInput[] | PullRequestScalarWhereInput>;
+  OR?: Maybe<PullRequestScalarWhereInput[] | PullRequestScalarWhereInput>;
+  NOT?: Maybe<PullRequestScalarWhereInput[] | PullRequestScalarWhereInput>;
+}
+
+export interface CommitUpdateWithoutUserDataInput {
+  message?: Maybe<String>;
+  date?: Maybe<String>;
+  repo?: Maybe<RepoUpdateOneRequiredWithoutCommitsInput>;
+}
+
+export interface PullRequestUpdateManyWithWhereNestedInput {
+  where: PullRequestScalarWhereInput;
+  data: PullRequestUpdateManyDataInput;
+}
+
+export interface RepoCreateManyInput {
+  create?: Maybe<RepoCreateInput[] | RepoCreateInput>;
+  connect?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
+}
+
+export interface PullRequestUpdateManyDataInput {
+  title?: Maybe<String>;
+  merged?: Maybe<Boolean>;
+}
+
+export interface CommitCreateWithoutRepoInput {
+  id?: Maybe<ID_Input>;
+  message: String;
+  user: UserCreateOneWithoutCommitsInput;
+  date: String;
+}
+
+export interface UserUpsertWithoutCommitsInput {
+  update: UserUpdateWithoutCommitsDataInput;
+  create: UserCreateWithoutCommitsInput;
+}
+
+export interface RepoCreateWithoutCommitsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoCreatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link: String;
+}
+
+export interface RepoUpdateOneRequiredWithoutCommitsInput {
+  create?: Maybe<RepoCreateWithoutCommitsInput>;
+  update?: Maybe<RepoUpdateWithoutCommitsDataInput>;
+  upsert?: Maybe<RepoUpsertWithoutCommitsInput>;
+  connect?: Maybe<RepoWhereUniqueInput>;
+}
+
+export interface UserUpdateInput {
+  username?: Maybe<String>;
+  repos?: Maybe<RepoUpdateManyInput>;
+  commits?: Maybe<CommitUpdateManyWithoutUserInput>;
+  pullRequests?: Maybe<PullRequestUpdateManyWithoutAuthorInput>;
+}
+
+export interface RepoUpdateWithoutCommitsDataInput {
   name?: Maybe<String>;
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  links?: Maybe<LinkUpdateManyWithoutPostedByInput>;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoUpdatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link?: Maybe<String>;
 }
 
-export interface UserUpdateOneRequiredWithoutVotesInput {
-  create?: Maybe<UserCreateWithoutVotesInput>;
-  update?: Maybe<UserUpdateWithoutVotesDataInput>;
-  upsert?: Maybe<UserUpsertWithoutVotesInput>;
+export interface CommitUpsertWithWhereUniqueWithoutUserInput {
+  where: CommitWhereUniqueInput;
+  update: CommitUpdateWithoutUserDataInput;
+  create: CommitCreateWithoutUserInput;
+}
+
+export interface RepoUpsertWithoutCommitsInput {
+  update: RepoUpdateWithoutCommitsDataInput;
+  create: RepoCreateWithoutCommitsInput;
+}
+
+export interface UserCreateOneWithoutCommitsInput {
+  create?: Maybe<UserCreateWithoutCommitsInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface VoteUpdateWithoutLinkDataInput {
-  user?: Maybe<UserUpdateOneRequiredWithoutVotesInput>;
-}
-
-export interface LinkUpdateManyWithWhereNestedInput {
-  where: LinkScalarWhereInput;
-  data: LinkUpdateManyDataInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-}>;
-
-export interface LinkCreateWithoutVotesInput {
+export interface PullRequestCreateInput {
   id?: Maybe<ID_Input>;
-  description: String;
-  url: String;
-  postedBy?: Maybe<UserCreateOneWithoutLinksInput>;
+  author: UserCreateOneWithoutPullRequestsInput;
+  title: String;
+  merged: Boolean;
 }
 
-export interface UserCreateWithoutLinksInput {
+export interface UserCreateWithoutPullRequestsInput {
   id?: Maybe<ID_Input>;
-  name: String;
-  email: String;
-  password: String;
-  votes?: Maybe<VoteCreateManyWithoutUserInput>;
+  username: String;
+  repos?: Maybe<RepoCreateManyInput>;
+  commits?: Maybe<CommitCreateManyWithoutUserInput>;
+}
+
+export interface CommitCreateManyWithoutUserInput {
+  create?: Maybe<CommitCreateWithoutUserInput[] | CommitCreateWithoutUserInput>;
+  connect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+}
+
+export interface CommitUpdateManyMutationInput {
+  message?: Maybe<String>;
+  date?: Maybe<String>;
+}
+
+export interface RepoCreatelanguagesInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface CommitUpdateManyWithoutUserInput {
+  create?: Maybe<CommitCreateWithoutUserInput[] | CommitCreateWithoutUserInput>;
+  delete?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  connect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  set?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  disconnect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  update?: Maybe<
+    | CommitUpdateWithWhereUniqueWithoutUserInput[]
+    | CommitUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | CommitUpsertWithWhereUniqueWithoutUserInput[]
+    | CommitUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
+  updateMany?: Maybe<
+    | CommitUpdateManyWithWhereNestedInput[]
+    | CommitUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface RepoUpdateInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoUpdatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link?: Maybe<String>;
+  commits?: Maybe<CommitUpdateManyWithoutRepoInput>;
+}
+
+export interface RepoSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<RepoWhereInput>;
+  AND?: Maybe<RepoSubscriptionWhereInput[] | RepoSubscriptionWhereInput>;
+  OR?: Maybe<RepoSubscriptionWhereInput[] | RepoSubscriptionWhereInput>;
+  NOT?: Maybe<RepoSubscriptionWhereInput[] | RepoSubscriptionWhereInput>;
+}
+
+export interface PullRequestCreateWithoutAuthorInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  merged: Boolean;
 }
 
 export interface NodeNode {
   id: ID_Output;
 }
 
-export interface VotePreviousValues {
-  id: ID_Output;
-}
-
-export interface VotePreviousValuesPromise
-  extends Promise<VotePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-}
-
-export interface VotePreviousValuesSubscription
-  extends Promise<AsyncIterator<VotePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-}
-
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
-}
-
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
-}
-
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
-}
-
-export interface LinkConnection {
-  pageInfo: PageInfo;
-  edges: LinkEdge[];
-}
-
-export interface LinkConnectionPromise
-  extends Promise<LinkConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<LinkEdge>>() => T;
-  aggregate: <T = AggregateLinkPromise>() => T;
-}
-
-export interface LinkConnectionSubscription
-  extends Promise<AsyncIterator<LinkConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<LinkEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateLinkSubscription>() => T;
-}
-
 export interface UserPreviousValues {
   id: ID_Output;
-  name: String;
-  email: String;
-  password: String;
+  username: String;
 }
 
 export interface UserPreviousValuesPromise
   extends Promise<UserPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
-  password: () => Promise<String>;
+  username: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
   extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
+  username: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateLink {
-  count: Int;
-}
-
-export interface AggregateLinkPromise
-  extends Promise<AggregateLink>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateLinkSubscription
-  extends Promise<AsyncIterator<AggregateLink>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface User {
-  id: ID_Output;
-  name: String;
-  email: String;
-  password: String;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
-  password: () => Promise<String>;
-  links: <T = FragmentableArray<Link>>(args?: {
-    where?: LinkWhereInput;
-    orderBy?: LinkOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  votes: <T = FragmentableArray<Vote>>(args?: {
-    where?: VoteWhereInput;
-    orderBy?: VoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
-  links: <T = Promise<AsyncIterator<LinkSubscription>>>(args?: {
-    where?: LinkWhereInput;
-    orderBy?: LinkOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  votes: <T = Promise<AsyncIterator<VoteSubscription>>>(args?: {
-    where?: VoteWhereInput;
-    orderBy?: VoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
-  password: () => Promise<String>;
-  links: <T = FragmentableArray<Link>>(args?: {
-    where?: LinkWhereInput;
-    orderBy?: LinkOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  votes: <T = FragmentableArray<Vote>>(args?: {
-    where?: VoteWhereInput;
-    orderBy?: VoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface AggregateVote {
-  count: Int;
-}
-
-export interface AggregateVotePromise
-  extends Promise<AggregateVote>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateVoteSubscription
-  extends Promise<AsyncIterator<AggregateVote>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface LinkEdge {
-  node: Link;
+export interface PullRequestEdge {
+  node: PullRequest;
   cursor: String;
 }
 
-export interface LinkEdgePromise extends Promise<LinkEdge>, Fragmentable {
-  node: <T = LinkPromise>() => T;
+export interface PullRequestEdgePromise
+  extends Promise<PullRequestEdge>,
+    Fragmentable {
+  node: <T = PullRequestPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface LinkEdgeSubscription
-  extends Promise<AsyncIterator<LinkEdge>>,
+export interface PullRequestEdgeSubscription
+  extends Promise<AsyncIterator<PullRequestEdge>>,
     Fragmentable {
-  node: <T = LinkSubscription>() => T;
+  node: <T = PullRequestSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface VoteConnection {
-  pageInfo: PageInfo;
-  edges: VoteEdge[];
+export interface RepoSubscriptionPayload {
+  mutation: MutationType;
+  node: Repo;
+  updatedFields: String[];
+  previousValues: RepoPreviousValues;
 }
 
-export interface VoteConnectionPromise
-  extends Promise<VoteConnection>,
+export interface RepoSubscriptionPayloadPromise
+  extends Promise<RepoSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = RepoPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = RepoPreviousValuesPromise>() => T;
+}
+
+export interface RepoSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<RepoSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = RepoSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = RepoPreviousValuesSubscription>() => T;
+}
+
+export interface PullRequestConnection {
+  pageInfo: PageInfo;
+  edges: PullRequestEdge[];
+}
+
+export interface PullRequestConnectionPromise
+  extends Promise<PullRequestConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<VoteEdge>>() => T;
-  aggregate: <T = AggregateVotePromise>() => T;
+  edges: <T = FragmentableArray<PullRequestEdge>>() => T;
+  aggregate: <T = AggregatePullRequestPromise>() => T;
 }
 
-export interface VoteConnectionSubscription
-  extends Promise<AsyncIterator<VoteConnection>>,
+export interface PullRequestConnectionSubscription
+  extends Promise<AsyncIterator<PullRequestConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<VoteEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateVoteSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PullRequestEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePullRequestSubscription>() => T;
+}
+
+export interface AggregateCommit {
+  count: Int;
+}
+
+export interface AggregateCommitPromise
+  extends Promise<AggregateCommit>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCommitSubscription
+  extends Promise<AsyncIterator<AggregateCommit>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -1036,159 +1246,37 @@ export interface UserSubscriptionPayloadSubscription
   previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
-export interface UserEdge {
-  node: User;
+export interface CommitEdge {
+  node: Commit;
   cursor: String;
 }
 
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
+export interface CommitEdgePromise extends Promise<CommitEdge>, Fragmentable {
+  node: <T = CommitPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
+export interface CommitEdgeSubscription
+  extends Promise<AsyncIterator<CommitEdge>>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
+  node: <T = CommitSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface Vote {
-  id: ID_Output;
+export interface AggregateUser {
+  count: Int;
 }
 
-export interface VotePromise extends Promise<Vote>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  link: <T = LinkPromise>() => T;
-  user: <T = UserPromise>() => T;
-}
-
-export interface VoteSubscription
-  extends Promise<AsyncIterator<Vote>>,
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  link: <T = LinkSubscription>() => T;
-  user: <T = UserSubscription>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface VoteNullablePromise
-  extends Promise<Vote | null>,
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  link: <T = LinkPromise>() => T;
-  user: <T = UserPromise>() => T;
-}
-
-export interface LinkPreviousValues {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  description: String;
-  url: String;
-}
-
-export interface LinkPreviousValuesPromise
-  extends Promise<LinkPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  description: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface LinkPreviousValuesSubscription
-  extends Promise<AsyncIterator<LinkPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  description: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface LinkSubscriptionPayload {
-  mutation: MutationType;
-  node: Link;
-  updatedFields: String[];
-  previousValues: LinkPreviousValues;
-}
-
-export interface LinkSubscriptionPayloadPromise
-  extends Promise<LinkSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = LinkPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = LinkPreviousValuesPromise>() => T;
-}
-
-export interface LinkSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<LinkSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = LinkSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = LinkPreviousValuesSubscription>() => T;
-}
-
-export interface Link {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  description: String;
-  url: String;
-}
-
-export interface LinkPromise extends Promise<Link>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  description: () => Promise<String>;
-  url: () => Promise<String>;
-  postedBy: <T = UserPromise>() => T;
-  votes: <T = FragmentableArray<Vote>>(args?: {
-    where?: VoteWhereInput;
-    orderBy?: VoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface LinkSubscription
-  extends Promise<AsyncIterator<Link>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  description: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-  postedBy: <T = UserSubscription>() => T;
-  votes: <T = Promise<AsyncIterator<VoteSubscription>>>(args?: {
-    where?: VoteWhereInput;
-    orderBy?: VoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface LinkNullablePromise
-  extends Promise<Link | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  description: () => Promise<String>;
-  url: () => Promise<String>;
-  postedBy: <T = UserPromise>() => T;
-  votes: <T = FragmentableArray<Vote>>(args?: {
-    where?: VoteWhereInput;
-    orderBy?: VoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface PageInfo {
@@ -1214,77 +1302,494 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface VoteSubscriptionPayload {
-  mutation: MutationType;
-  node: Vote;
-  updatedFields: String[];
-  previousValues: VotePreviousValues;
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
 }
 
-export interface VoteSubscriptionPayloadPromise
-  extends Promise<VoteSubscriptionPayload>,
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = VotePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = VotePreviousValuesPromise>() => T;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
 }
 
-export interface VoteSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<VoteSubscriptionPayload>>,
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = VoteSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = VotePreviousValuesSubscription>() => T;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
-export interface BatchPayload {
-  count: Long;
+export interface Commit {
+  id: ID_Output;
+  message: String;
+  date: String;
 }
 
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
+export interface CommitPromise extends Promise<Commit>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  message: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  date: () => Promise<String>;
+  repo: <T = RepoPromise>() => T;
+}
+
+export interface CommitSubscription
+  extends Promise<AsyncIterator<Commit>>,
     Fragmentable {
-  count: () => Promise<Long>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  message: () => Promise<AsyncIterator<String>>;
+  user: <T = UserSubscription>() => T;
+  date: () => Promise<AsyncIterator<String>>;
+  repo: <T = RepoSubscription>() => T;
 }
 
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
+export interface CommitNullablePromise
+  extends Promise<Commit | null>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
+  id: () => Promise<ID_Output>;
+  message: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  date: () => Promise<String>;
+  repo: <T = RepoPromise>() => T;
 }
 
-export interface AggregateUser {
+export interface AggregateRepo {
   count: Int;
 }
 
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
+export interface AggregateRepoPromise
+  extends Promise<AggregateRepo>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
+export interface AggregateRepoSubscription
+  extends Promise<AsyncIterator<AggregateRepo>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface VoteEdge {
-  node: Vote;
+export interface CommitSubscriptionPayload {
+  mutation: MutationType;
+  node: Commit;
+  updatedFields: String[];
+  previousValues: CommitPreviousValues;
+}
+
+export interface CommitSubscriptionPayloadPromise
+  extends Promise<CommitSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CommitPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CommitPreviousValuesPromise>() => T;
+}
+
+export interface CommitSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CommitSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CommitSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CommitPreviousValuesSubscription>() => T;
+}
+
+export interface RepoConnection {
+  pageInfo: PageInfo;
+  edges: RepoEdge[];
+}
+
+export interface RepoConnectionPromise
+  extends Promise<RepoConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<RepoEdge>>() => T;
+  aggregate: <T = AggregateRepoPromise>() => T;
+}
+
+export interface RepoConnectionSubscription
+  extends Promise<AsyncIterator<RepoConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<RepoEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateRepoSubscription>() => T;
+}
+
+export interface CommitPreviousValues {
+  id: ID_Output;
+  message: String;
+  date: String;
+}
+
+export interface CommitPreviousValuesPromise
+  extends Promise<CommitPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  message: () => Promise<String>;
+  date: () => Promise<String>;
+}
+
+export interface CommitPreviousValuesSubscription
+  extends Promise<AsyncIterator<CommitPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  message: () => Promise<AsyncIterator<String>>;
+  date: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Repo {
+  id: ID_Output;
+  name: String;
+  description?: String;
+  languages: String[];
+  stars?: Int;
+  link: String;
+}
+
+export interface RepoPromise extends Promise<Repo>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  languages: () => Promise<String[]>;
+  stars: () => Promise<Int>;
+  link: () => Promise<String>;
+  commits: <T = FragmentableArray<Commit>>(args?: {
+    where?: CommitWhereInput;
+    orderBy?: CommitOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface RepoSubscription
+  extends Promise<AsyncIterator<Repo>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  languages: () => Promise<AsyncIterator<String[]>>;
+  stars: () => Promise<AsyncIterator<Int>>;
+  link: () => Promise<AsyncIterator<String>>;
+  commits: <T = Promise<AsyncIterator<CommitSubscription>>>(args?: {
+    where?: CommitWhereInput;
+    orderBy?: CommitOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface RepoNullablePromise
+  extends Promise<Repo | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  languages: () => Promise<String[]>;
+  stars: () => Promise<Int>;
+  link: () => Promise<String>;
+  commits: <T = FragmentableArray<Commit>>(args?: {
+    where?: CommitWhereInput;
+    orderBy?: CommitOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserEdge {
+  node: User;
   cursor: String;
 }
 
-export interface VoteEdgePromise extends Promise<VoteEdge>, Fragmentable {
-  node: <T = VotePromise>() => T;
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface VoteEdgeSubscription
-  extends Promise<AsyncIterator<VoteEdge>>,
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
     Fragmentable {
-  node: <T = VoteSubscription>() => T;
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PullRequest {
+  id: ID_Output;
+  title: String;
+  merged: Boolean;
+}
+
+export interface PullRequestPromise extends Promise<PullRequest>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  author: <T = UserPromise>() => T;
+  title: () => Promise<String>;
+  merged: () => Promise<Boolean>;
+}
+
+export interface PullRequestSubscription
+  extends Promise<AsyncIterator<PullRequest>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  author: <T = UserSubscription>() => T;
+  title: () => Promise<AsyncIterator<String>>;
+  merged: () => Promise<AsyncIterator<Boolean>>;
+}
+
+export interface PullRequestNullablePromise
+  extends Promise<PullRequest | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  author: <T = UserPromise>() => T;
+  title: () => Promise<String>;
+  merged: () => Promise<Boolean>;
+}
+
+export interface PullRequestPreviousValues {
+  id: ID_Output;
+  title: String;
+  merged: Boolean;
+}
+
+export interface PullRequestPreviousValuesPromise
+  extends Promise<PullRequestPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  merged: () => Promise<Boolean>;
+}
+
+export interface PullRequestPreviousValuesSubscription
+  extends Promise<AsyncIterator<PullRequestPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  merged: () => Promise<AsyncIterator<Boolean>>;
+}
+
+export interface PullRequestSubscriptionPayload {
+  mutation: MutationType;
+  node: PullRequest;
+  updatedFields: String[];
+  previousValues: PullRequestPreviousValues;
+}
+
+export interface PullRequestSubscriptionPayloadPromise
+  extends Promise<PullRequestSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PullRequestPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PullRequestPreviousValuesPromise>() => T;
+}
+
+export interface PullRequestSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PullRequestSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PullRequestSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PullRequestPreviousValuesSubscription>() => T;
+}
+
+export interface CommitConnection {
+  pageInfo: PageInfo;
+  edges: CommitEdge[];
+}
+
+export interface CommitConnectionPromise
+  extends Promise<CommitConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CommitEdge>>() => T;
+  aggregate: <T = AggregateCommitPromise>() => T;
+}
+
+export interface CommitConnectionSubscription
+  extends Promise<AsyncIterator<CommitConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CommitEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCommitSubscription>() => T;
+}
+
+export interface RepoPreviousValues {
+  id: ID_Output;
+  name: String;
+  description?: String;
+  languages: String[];
+  stars?: Int;
+  link: String;
+}
+
+export interface RepoPreviousValuesPromise
+  extends Promise<RepoPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  languages: () => Promise<String[]>;
+  stars: () => Promise<Int>;
+  link: () => Promise<String>;
+}
+
+export interface RepoPreviousValuesSubscription
+  extends Promise<AsyncIterator<RepoPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  languages: () => Promise<AsyncIterator<String[]>>;
+  stars: () => Promise<AsyncIterator<Int>>;
+  link: () => Promise<AsyncIterator<String>>;
+}
+
+export interface User {
+  id: ID_Output;
+  username: String;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  username: () => Promise<String>;
+  repos: <T = FragmentableArray<Repo>>(args?: {
+    where?: RepoWhereInput;
+    orderBy?: RepoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  commits: <T = FragmentableArray<Commit>>(args?: {
+    where?: CommitWhereInput;
+    orderBy?: CommitOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  pullRequests: <T = FragmentableArray<PullRequest>>(args?: {
+    where?: PullRequestWhereInput;
+    orderBy?: PullRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  username: () => Promise<AsyncIterator<String>>;
+  repos: <T = Promise<AsyncIterator<RepoSubscription>>>(args?: {
+    where?: RepoWhereInput;
+    orderBy?: RepoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  commits: <T = Promise<AsyncIterator<CommitSubscription>>>(args?: {
+    where?: CommitWhereInput;
+    orderBy?: CommitOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  pullRequests: <T = Promise<AsyncIterator<PullRequestSubscription>>>(args?: {
+    where?: PullRequestWhereInput;
+    orderBy?: PullRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  username: () => Promise<String>;
+  repos: <T = FragmentableArray<Repo>>(args?: {
+    where?: RepoWhereInput;
+    orderBy?: RepoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  commits: <T = FragmentableArray<Commit>>(args?: {
+    where?: CommitWhereInput;
+    orderBy?: CommitOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  pullRequests: <T = FragmentableArray<PullRequest>>(args?: {
+    where?: PullRequestWhereInput;
+    orderBy?: PullRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface AggregatePullRequest {
+  count: Int;
+}
+
+export interface AggregatePullRequestPromise
+  extends Promise<AggregatePullRequest>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePullRequestSubscription
+  extends Promise<AsyncIterator<AggregatePullRequest>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface RepoEdge {
+  node: Repo;
+  cursor: String;
+}
+
+export interface RepoEdgePromise extends Promise<RepoEdge>, Fragmentable {
+  node: <T = RepoPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface RepoEdgeSubscription
+  extends Promise<AsyncIterator<RepoEdge>>,
+    Fragmentable {
+  node: <T = RepoSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -1293,10 +1798,12 @@ The `Int` scalar type represents non-fractional signed whole numeric values. Int
 */
 export type Int = number;
 
+export type Long = string;
+
 /*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+The `Boolean` scalar type represents `true` or `false`.
 */
-export type String = string;
+export type Boolean = boolean;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -1304,22 +1811,10 @@ The `ID` scalar type represents a unique identifier, often used to refetch an ob
 export type ID_Input = string | number;
 export type ID_Output = string;
 
-export type Long = string;
-
 /*
-DateTime scalar input type, allowing Date
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
-export type DateTimeInput = Date | string;
-
-/*
-DateTime scalar output type, which is always a string
-*/
-export type DateTimeOutput = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
+export type String = string;
 
 /**
  * Model Metadata
@@ -1327,15 +1822,19 @@ export type Boolean = boolean;
 
 export const models: Model[] = [
   {
-    name: "Link",
-    embedded: false
-  },
-  {
     name: "User",
     embedded: false
   },
   {
-    name: "Vote",
+    name: "Repo",
+    embedded: false
+  },
+  {
+    name: "Commit",
+    embedded: false
+  },
+  {
+    name: "PullRequest",
     embedded: false
   }
 ];

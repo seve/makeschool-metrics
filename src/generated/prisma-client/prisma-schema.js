@@ -3,7 +3,15 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateLink {
+/* GraphQL */ `type AggregateCommit {
+  count: Int!
+}
+
+type AggregatePullRequest {
+  count: Int!
+}
+
+type AggregateRepo {
   count: Int!
 }
 
@@ -11,87 +19,77 @@ type AggregateUser {
   count: Int!
 }
 
-type AggregateVote {
-  count: Int!
-}
-
 type BatchPayload {
   count: Long!
 }
 
-scalar DateTime
-
-type Link {
+type Commit {
   id: ID!
-  createdAt: DateTime!
-  description: String!
-  url: String!
-  postedBy: User
-  votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote!]
+  message: String!
+  user: User!
+  date: String!
+  repo: Repo!
 }
 
-type LinkConnection {
+type CommitConnection {
   pageInfo: PageInfo!
-  edges: [LinkEdge]!
-  aggregate: AggregateLink!
+  edges: [CommitEdge]!
+  aggregate: AggregateCommit!
 }
 
-input LinkCreateInput {
+input CommitCreateInput {
   id: ID
-  description: String!
-  url: String!
-  postedBy: UserCreateOneWithoutLinksInput
-  votes: VoteCreateManyWithoutLinkInput
+  message: String!
+  user: UserCreateOneWithoutCommitsInput!
+  date: String!
+  repo: RepoCreateOneWithoutCommitsInput!
 }
 
-input LinkCreateManyWithoutPostedByInput {
-  create: [LinkCreateWithoutPostedByInput!]
-  connect: [LinkWhereUniqueInput!]
+input CommitCreateManyWithoutRepoInput {
+  create: [CommitCreateWithoutRepoInput!]
+  connect: [CommitWhereUniqueInput!]
 }
 
-input LinkCreateOneWithoutVotesInput {
-  create: LinkCreateWithoutVotesInput
-  connect: LinkWhereUniqueInput
+input CommitCreateManyWithoutUserInput {
+  create: [CommitCreateWithoutUserInput!]
+  connect: [CommitWhereUniqueInput!]
 }
 
-input LinkCreateWithoutPostedByInput {
+input CommitCreateWithoutRepoInput {
   id: ID
-  description: String!
-  url: String!
-  votes: VoteCreateManyWithoutLinkInput
+  message: String!
+  user: UserCreateOneWithoutCommitsInput!
+  date: String!
 }
 
-input LinkCreateWithoutVotesInput {
+input CommitCreateWithoutUserInput {
   id: ID
-  description: String!
-  url: String!
-  postedBy: UserCreateOneWithoutLinksInput
+  message: String!
+  date: String!
+  repo: RepoCreateOneWithoutCommitsInput!
 }
 
-type LinkEdge {
-  node: Link!
+type CommitEdge {
+  node: Commit!
   cursor: String!
 }
 
-enum LinkOrderByInput {
+enum CommitOrderByInput {
   id_ASC
   id_DESC
-  createdAt_ASC
-  createdAt_DESC
-  description_ASC
-  description_DESC
-  url_ASC
-  url_DESC
+  message_ASC
+  message_DESC
+  date_ASC
+  date_DESC
 }
 
-type LinkPreviousValues {
+type CommitPreviousValues {
   id: ID!
-  createdAt: DateTime!
-  description: String!
-  url: String!
+  message: String!
+  date: String!
 }
 
-input LinkScalarWhereInput {
+input CommitScalarWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -106,135 +104,138 @@ input LinkScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  description: String
-  description_not: String
-  description_in: [String!]
-  description_not_in: [String!]
-  description_lt: String
-  description_lte: String
-  description_gt: String
-  description_gte: String
-  description_contains: String
-  description_not_contains: String
-  description_starts_with: String
-  description_not_starts_with: String
-  description_ends_with: String
-  description_not_ends_with: String
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
-  AND: [LinkScalarWhereInput!]
-  OR: [LinkScalarWhereInput!]
-  NOT: [LinkScalarWhereInput!]
+  message: String
+  message_not: String
+  message_in: [String!]
+  message_not_in: [String!]
+  message_lt: String
+  message_lte: String
+  message_gt: String
+  message_gte: String
+  message_contains: String
+  message_not_contains: String
+  message_starts_with: String
+  message_not_starts_with: String
+  message_ends_with: String
+  message_not_ends_with: String
+  date: String
+  date_not: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_lt: String
+  date_lte: String
+  date_gt: String
+  date_gte: String
+  date_contains: String
+  date_not_contains: String
+  date_starts_with: String
+  date_not_starts_with: String
+  date_ends_with: String
+  date_not_ends_with: String
+  AND: [CommitScalarWhereInput!]
+  OR: [CommitScalarWhereInput!]
+  NOT: [CommitScalarWhereInput!]
 }
 
-type LinkSubscriptionPayload {
+type CommitSubscriptionPayload {
   mutation: MutationType!
-  node: Link
+  node: Commit
   updatedFields: [String!]
-  previousValues: LinkPreviousValues
+  previousValues: CommitPreviousValues
 }
 
-input LinkSubscriptionWhereInput {
+input CommitSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: LinkWhereInput
-  AND: [LinkSubscriptionWhereInput!]
-  OR: [LinkSubscriptionWhereInput!]
-  NOT: [LinkSubscriptionWhereInput!]
+  node: CommitWhereInput
+  AND: [CommitSubscriptionWhereInput!]
+  OR: [CommitSubscriptionWhereInput!]
+  NOT: [CommitSubscriptionWhereInput!]
 }
 
-input LinkUpdateInput {
-  description: String
-  url: String
-  postedBy: UserUpdateOneWithoutLinksInput
-  votes: VoteUpdateManyWithoutLinkInput
+input CommitUpdateInput {
+  message: String
+  user: UserUpdateOneRequiredWithoutCommitsInput
+  date: String
+  repo: RepoUpdateOneRequiredWithoutCommitsInput
 }
 
-input LinkUpdateManyDataInput {
-  description: String
-  url: String
+input CommitUpdateManyDataInput {
+  message: String
+  date: String
 }
 
-input LinkUpdateManyMutationInput {
-  description: String
-  url: String
+input CommitUpdateManyMutationInput {
+  message: String
+  date: String
 }
 
-input LinkUpdateManyWithoutPostedByInput {
-  create: [LinkCreateWithoutPostedByInput!]
-  delete: [LinkWhereUniqueInput!]
-  connect: [LinkWhereUniqueInput!]
-  set: [LinkWhereUniqueInput!]
-  disconnect: [LinkWhereUniqueInput!]
-  update: [LinkUpdateWithWhereUniqueWithoutPostedByInput!]
-  upsert: [LinkUpsertWithWhereUniqueWithoutPostedByInput!]
-  deleteMany: [LinkScalarWhereInput!]
-  updateMany: [LinkUpdateManyWithWhereNestedInput!]
+input CommitUpdateManyWithoutRepoInput {
+  create: [CommitCreateWithoutRepoInput!]
+  delete: [CommitWhereUniqueInput!]
+  connect: [CommitWhereUniqueInput!]
+  set: [CommitWhereUniqueInput!]
+  disconnect: [CommitWhereUniqueInput!]
+  update: [CommitUpdateWithWhereUniqueWithoutRepoInput!]
+  upsert: [CommitUpsertWithWhereUniqueWithoutRepoInput!]
+  deleteMany: [CommitScalarWhereInput!]
+  updateMany: [CommitUpdateManyWithWhereNestedInput!]
 }
 
-input LinkUpdateManyWithWhereNestedInput {
-  where: LinkScalarWhereInput!
-  data: LinkUpdateManyDataInput!
+input CommitUpdateManyWithoutUserInput {
+  create: [CommitCreateWithoutUserInput!]
+  delete: [CommitWhereUniqueInput!]
+  connect: [CommitWhereUniqueInput!]
+  set: [CommitWhereUniqueInput!]
+  disconnect: [CommitWhereUniqueInput!]
+  update: [CommitUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [CommitUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [CommitScalarWhereInput!]
+  updateMany: [CommitUpdateManyWithWhereNestedInput!]
 }
 
-input LinkUpdateOneRequiredWithoutVotesInput {
-  create: LinkCreateWithoutVotesInput
-  update: LinkUpdateWithoutVotesDataInput
-  upsert: LinkUpsertWithoutVotesInput
-  connect: LinkWhereUniqueInput
+input CommitUpdateManyWithWhereNestedInput {
+  where: CommitScalarWhereInput!
+  data: CommitUpdateManyDataInput!
 }
 
-input LinkUpdateWithoutPostedByDataInput {
-  description: String
-  url: String
-  votes: VoteUpdateManyWithoutLinkInput
+input CommitUpdateWithoutRepoDataInput {
+  message: String
+  user: UserUpdateOneRequiredWithoutCommitsInput
+  date: String
 }
 
-input LinkUpdateWithoutVotesDataInput {
-  description: String
-  url: String
-  postedBy: UserUpdateOneWithoutLinksInput
+input CommitUpdateWithoutUserDataInput {
+  message: String
+  date: String
+  repo: RepoUpdateOneRequiredWithoutCommitsInput
 }
 
-input LinkUpdateWithWhereUniqueWithoutPostedByInput {
-  where: LinkWhereUniqueInput!
-  data: LinkUpdateWithoutPostedByDataInput!
+input CommitUpdateWithWhereUniqueWithoutRepoInput {
+  where: CommitWhereUniqueInput!
+  data: CommitUpdateWithoutRepoDataInput!
 }
 
-input LinkUpsertWithoutVotesInput {
-  update: LinkUpdateWithoutVotesDataInput!
-  create: LinkCreateWithoutVotesInput!
+input CommitUpdateWithWhereUniqueWithoutUserInput {
+  where: CommitWhereUniqueInput!
+  data: CommitUpdateWithoutUserDataInput!
 }
 
-input LinkUpsertWithWhereUniqueWithoutPostedByInput {
-  where: LinkWhereUniqueInput!
-  update: LinkUpdateWithoutPostedByDataInput!
-  create: LinkCreateWithoutPostedByInput!
+input CommitUpsertWithWhereUniqueWithoutRepoInput {
+  where: CommitWhereUniqueInput!
+  update: CommitUpdateWithoutRepoDataInput!
+  create: CommitCreateWithoutRepoInput!
 }
 
-input LinkWhereInput {
+input CommitUpsertWithWhereUniqueWithoutUserInput {
+  where: CommitWhereUniqueInput!
+  update: CommitUpdateWithoutUserDataInput!
+  create: CommitCreateWithoutUserInput!
+}
+
+input CommitWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -249,75 +250,72 @@ input LinkWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  description: String
-  description_not: String
-  description_in: [String!]
-  description_not_in: [String!]
-  description_lt: String
-  description_lte: String
-  description_gt: String
-  description_gte: String
-  description_contains: String
-  description_not_contains: String
-  description_starts_with: String
-  description_not_starts_with: String
-  description_ends_with: String
-  description_not_ends_with: String
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
-  postedBy: UserWhereInput
-  votes_every: VoteWhereInput
-  votes_some: VoteWhereInput
-  votes_none: VoteWhereInput
-  AND: [LinkWhereInput!]
-  OR: [LinkWhereInput!]
-  NOT: [LinkWhereInput!]
+  message: String
+  message_not: String
+  message_in: [String!]
+  message_not_in: [String!]
+  message_lt: String
+  message_lte: String
+  message_gt: String
+  message_gte: String
+  message_contains: String
+  message_not_contains: String
+  message_starts_with: String
+  message_not_starts_with: String
+  message_ends_with: String
+  message_not_ends_with: String
+  user: UserWhereInput
+  date: String
+  date_not: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_lt: String
+  date_lte: String
+  date_gt: String
+  date_gte: String
+  date_contains: String
+  date_not_contains: String
+  date_starts_with: String
+  date_not_starts_with: String
+  date_ends_with: String
+  date_not_ends_with: String
+  repo: RepoWhereInput
+  AND: [CommitWhereInput!]
+  OR: [CommitWhereInput!]
+  NOT: [CommitWhereInput!]
 }
 
-input LinkWhereUniqueInput {
+input CommitWhereUniqueInput {
   id: ID
 }
 
 scalar Long
 
 type Mutation {
-  createLink(data: LinkCreateInput!): Link!
-  updateLink(data: LinkUpdateInput!, where: LinkWhereUniqueInput!): Link
-  updateManyLinks(data: LinkUpdateManyMutationInput!, where: LinkWhereInput): BatchPayload!
-  upsertLink(where: LinkWhereUniqueInput!, create: LinkCreateInput!, update: LinkUpdateInput!): Link!
-  deleteLink(where: LinkWhereUniqueInput!): Link
-  deleteManyLinks(where: LinkWhereInput): BatchPayload!
+  createCommit(data: CommitCreateInput!): Commit!
+  updateCommit(data: CommitUpdateInput!, where: CommitWhereUniqueInput!): Commit
+  updateManyCommits(data: CommitUpdateManyMutationInput!, where: CommitWhereInput): BatchPayload!
+  upsertCommit(where: CommitWhereUniqueInput!, create: CommitCreateInput!, update: CommitUpdateInput!): Commit!
+  deleteCommit(where: CommitWhereUniqueInput!): Commit
+  deleteManyCommits(where: CommitWhereInput): BatchPayload!
+  createPullRequest(data: PullRequestCreateInput!): PullRequest!
+  updatePullRequest(data: PullRequestUpdateInput!, where: PullRequestWhereUniqueInput!): PullRequest
+  updateManyPullRequests(data: PullRequestUpdateManyMutationInput!, where: PullRequestWhereInput): BatchPayload!
+  upsertPullRequest(where: PullRequestWhereUniqueInput!, create: PullRequestCreateInput!, update: PullRequestUpdateInput!): PullRequest!
+  deletePullRequest(where: PullRequestWhereUniqueInput!): PullRequest
+  deleteManyPullRequests(where: PullRequestWhereInput): BatchPayload!
+  createRepo(data: RepoCreateInput!): Repo!
+  updateRepo(data: RepoUpdateInput!, where: RepoWhereUniqueInput!): Repo
+  updateManyRepoes(data: RepoUpdateManyMutationInput!, where: RepoWhereInput): BatchPayload!
+  upsertRepo(where: RepoWhereUniqueInput!, create: RepoCreateInput!, update: RepoUpdateInput!): Repo!
+  deleteRepo(where: RepoWhereUniqueInput!): Repo
+  deleteManyRepoes(where: RepoWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  createVote(data: VoteCreateInput!): Vote!
-  updateVote(data: VoteUpdateInput!, where: VoteWhereUniqueInput!): Vote
-  upsertVote(where: VoteWhereUniqueInput!, create: VoteCreateInput!, update: VoteUpdateInput!): Vote!
-  deleteVote(where: VoteWhereUniqueInput!): Vote
-  deleteManyVotes(where: VoteWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -337,171 +335,294 @@ type PageInfo {
   endCursor: String
 }
 
-type Query {
-  link(where: LinkWhereUniqueInput!): Link
-  links(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Link]!
-  linksConnection(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LinkConnection!
-  user(where: UserWhereUniqueInput!): User
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  vote(where: VoteWhereUniqueInput!): Vote
-  votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote]!
-  votesConnection(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VoteConnection!
-  node(id: ID!): Node
-}
-
-type Subscription {
-  link(where: LinkSubscriptionWhereInput): LinkSubscriptionPayload
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  vote(where: VoteSubscriptionWhereInput): VoteSubscriptionPayload
-}
-
-type User {
+type PullRequest {
   id: ID!
-  name: String!
-  email: String!
-  password: String!
-  links(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Link!]
-  votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote!]
+  author: User!
+  title: String!
+  merged: Boolean!
 }
 
-type UserConnection {
+type PullRequestConnection {
   pageInfo: PageInfo!
-  edges: [UserEdge]!
-  aggregate: AggregateUser!
+  edges: [PullRequestEdge]!
+  aggregate: AggregatePullRequest!
 }
 
-input UserCreateInput {
+input PullRequestCreateInput {
   id: ID
-  name: String!
-  email: String!
-  password: String!
-  links: LinkCreateManyWithoutPostedByInput
-  votes: VoteCreateManyWithoutUserInput
+  author: UserCreateOneWithoutPullRequestsInput!
+  title: String!
+  merged: Boolean!
 }
 
-input UserCreateOneWithoutLinksInput {
-  create: UserCreateWithoutLinksInput
-  connect: UserWhereUniqueInput
+input PullRequestCreateManyWithoutAuthorInput {
+  create: [PullRequestCreateWithoutAuthorInput!]
+  connect: [PullRequestWhereUniqueInput!]
 }
 
-input UserCreateOneWithoutVotesInput {
-  create: UserCreateWithoutVotesInput
-  connect: UserWhereUniqueInput
-}
-
-input UserCreateWithoutLinksInput {
+input PullRequestCreateWithoutAuthorInput {
   id: ID
-  name: String!
-  email: String!
-  password: String!
-  votes: VoteCreateManyWithoutUserInput
+  title: String!
+  merged: Boolean!
 }
 
-input UserCreateWithoutVotesInput {
-  id: ID
-  name: String!
-  email: String!
-  password: String!
-  links: LinkCreateManyWithoutPostedByInput
-}
-
-type UserEdge {
-  node: User!
+type PullRequestEdge {
+  node: PullRequest!
   cursor: String!
 }
 
-enum UserOrderByInput {
+enum PullRequestOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
-  email_ASC
-  email_DESC
-  password_ASC
-  password_DESC
+  title_ASC
+  title_DESC
+  merged_ASC
+  merged_DESC
 }
 
-type UserPreviousValues {
+type PullRequestPreviousValues {
   id: ID!
-  name: String!
-  email: String!
-  password: String!
+  title: String!
+  merged: Boolean!
 }
 
-type UserSubscriptionPayload {
+input PullRequestScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  merged: Boolean
+  merged_not: Boolean
+  AND: [PullRequestScalarWhereInput!]
+  OR: [PullRequestScalarWhereInput!]
+  NOT: [PullRequestScalarWhereInput!]
+}
+
+type PullRequestSubscriptionPayload {
   mutation: MutationType!
-  node: User
+  node: PullRequest
   updatedFields: [String!]
-  previousValues: UserPreviousValues
+  previousValues: PullRequestPreviousValues
 }
 
-input UserSubscriptionWhereInput {
+input PullRequestSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: UserWhereInput
-  AND: [UserSubscriptionWhereInput!]
-  OR: [UserSubscriptionWhereInput!]
-  NOT: [UserSubscriptionWhereInput!]
+  node: PullRequestWhereInput
+  AND: [PullRequestSubscriptionWhereInput!]
+  OR: [PullRequestSubscriptionWhereInput!]
+  NOT: [PullRequestSubscriptionWhereInput!]
 }
 
-input UserUpdateInput {
-  name: String
-  email: String
-  password: String
-  links: LinkUpdateManyWithoutPostedByInput
-  votes: VoteUpdateManyWithoutUserInput
+input PullRequestUpdateInput {
+  author: UserUpdateOneRequiredWithoutPullRequestsInput
+  title: String
+  merged: Boolean
 }
 
-input UserUpdateManyMutationInput {
-  name: String
-  email: String
-  password: String
+input PullRequestUpdateManyDataInput {
+  title: String
+  merged: Boolean
 }
 
-input UserUpdateOneRequiredWithoutVotesInput {
-  create: UserCreateWithoutVotesInput
-  update: UserUpdateWithoutVotesDataInput
-  upsert: UserUpsertWithoutVotesInput
-  connect: UserWhereUniqueInput
+input PullRequestUpdateManyMutationInput {
+  title: String
+  merged: Boolean
 }
 
-input UserUpdateOneWithoutLinksInput {
-  create: UserCreateWithoutLinksInput
-  update: UserUpdateWithoutLinksDataInput
-  upsert: UserUpsertWithoutLinksInput
-  delete: Boolean
-  disconnect: Boolean
-  connect: UserWhereUniqueInput
+input PullRequestUpdateManyWithoutAuthorInput {
+  create: [PullRequestCreateWithoutAuthorInput!]
+  delete: [PullRequestWhereUniqueInput!]
+  connect: [PullRequestWhereUniqueInput!]
+  set: [PullRequestWhereUniqueInput!]
+  disconnect: [PullRequestWhereUniqueInput!]
+  update: [PullRequestUpdateWithWhereUniqueWithoutAuthorInput!]
+  upsert: [PullRequestUpsertWithWhereUniqueWithoutAuthorInput!]
+  deleteMany: [PullRequestScalarWhereInput!]
+  updateMany: [PullRequestUpdateManyWithWhereNestedInput!]
 }
 
-input UserUpdateWithoutLinksDataInput {
-  name: String
-  email: String
-  password: String
-  votes: VoteUpdateManyWithoutUserInput
+input PullRequestUpdateManyWithWhereNestedInput {
+  where: PullRequestScalarWhereInput!
+  data: PullRequestUpdateManyDataInput!
 }
 
-input UserUpdateWithoutVotesDataInput {
-  name: String
-  email: String
-  password: String
-  links: LinkUpdateManyWithoutPostedByInput
+input PullRequestUpdateWithoutAuthorDataInput {
+  title: String
+  merged: Boolean
 }
 
-input UserUpsertWithoutLinksInput {
-  update: UserUpdateWithoutLinksDataInput!
-  create: UserCreateWithoutLinksInput!
+input PullRequestUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PullRequestWhereUniqueInput!
+  data: PullRequestUpdateWithoutAuthorDataInput!
 }
 
-input UserUpsertWithoutVotesInput {
-  update: UserUpdateWithoutVotesDataInput!
-  create: UserCreateWithoutVotesInput!
+input PullRequestUpsertWithWhereUniqueWithoutAuthorInput {
+  where: PullRequestWhereUniqueInput!
+  update: PullRequestUpdateWithoutAuthorDataInput!
+  create: PullRequestCreateWithoutAuthorInput!
 }
 
-input UserWhereInput {
+input PullRequestWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  author: UserWhereInput
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  merged: Boolean
+  merged_not: Boolean
+  AND: [PullRequestWhereInput!]
+  OR: [PullRequestWhereInput!]
+  NOT: [PullRequestWhereInput!]
+}
+
+input PullRequestWhereUniqueInput {
+  id: ID
+}
+
+type Query {
+  commit(where: CommitWhereUniqueInput!): Commit
+  commits(where: CommitWhereInput, orderBy: CommitOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Commit]!
+  commitsConnection(where: CommitWhereInput, orderBy: CommitOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommitConnection!
+  pullRequest(where: PullRequestWhereUniqueInput!): PullRequest
+  pullRequests(where: PullRequestWhereInput, orderBy: PullRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PullRequest]!
+  pullRequestsConnection(where: PullRequestWhereInput, orderBy: PullRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PullRequestConnection!
+  repo(where: RepoWhereUniqueInput!): Repo
+  repoes(where: RepoWhereInput, orderBy: RepoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Repo]!
+  repoesConnection(where: RepoWhereInput, orderBy: RepoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RepoConnection!
+  user(where: UserWhereUniqueInput!): User
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  node(id: ID!): Node
+}
+
+type Repo {
+  id: ID!
+  name: String!
+  description: String
+  languages: [String!]!
+  stars: Int
+  link: String!
+  commits(where: CommitWhereInput, orderBy: CommitOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Commit!]
+}
+
+type RepoConnection {
+  pageInfo: PageInfo!
+  edges: [RepoEdge]!
+  aggregate: AggregateRepo!
+}
+
+input RepoCreateInput {
+  id: ID
+  name: String!
+  description: String
+  languages: RepoCreatelanguagesInput
+  stars: Int
+  link: String!
+  commits: CommitCreateManyWithoutRepoInput
+}
+
+input RepoCreatelanguagesInput {
+  set: [String!]
+}
+
+input RepoCreateManyInput {
+  create: [RepoCreateInput!]
+  connect: [RepoWhereUniqueInput!]
+}
+
+input RepoCreateOneWithoutCommitsInput {
+  create: RepoCreateWithoutCommitsInput
+  connect: RepoWhereUniqueInput
+}
+
+input RepoCreateWithoutCommitsInput {
+  id: ID
+  name: String!
+  description: String
+  languages: RepoCreatelanguagesInput
+  stars: Int
+  link: String!
+}
+
+type RepoEdge {
+  node: Repo!
+  cursor: String!
+}
+
+enum RepoOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
+  stars_ASC
+  stars_DESC
+  link_ASC
+  link_DESC
+}
+
+type RepoPreviousValues {
+  id: ID!
+  name: String!
+  description: String
+  languages: [String!]!
+  stars: Int
+  link: String!
+}
+
+input RepoScalarWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -530,220 +651,407 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  email: String
-  email_not: String
-  email_in: [String!]
-  email_not_in: [String!]
-  email_lt: String
-  email_lte: String
-  email_gt: String
-  email_gte: String
-  email_contains: String
-  email_not_contains: String
-  email_starts_with: String
-  email_not_starts_with: String
-  email_ends_with: String
-  email_not_ends_with: String
-  password: String
-  password_not: String
-  password_in: [String!]
-  password_not_in: [String!]
-  password_lt: String
-  password_lte: String
-  password_gt: String
-  password_gte: String
-  password_contains: String
-  password_not_contains: String
-  password_starts_with: String
-  password_not_starts_with: String
-  password_ends_with: String
-  password_not_ends_with: String
-  links_every: LinkWhereInput
-  links_some: LinkWhereInput
-  links_none: LinkWhereInput
-  votes_every: VoteWhereInput
-  votes_some: VoteWhereInput
-  votes_none: VoteWhereInput
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  stars: Int
+  stars_not: Int
+  stars_in: [Int!]
+  stars_not_in: [Int!]
+  stars_lt: Int
+  stars_lte: Int
+  stars_gt: Int
+  stars_gte: Int
+  link: String
+  link_not: String
+  link_in: [String!]
+  link_not_in: [String!]
+  link_lt: String
+  link_lte: String
+  link_gt: String
+  link_gte: String
+  link_contains: String
+  link_not_contains: String
+  link_starts_with: String
+  link_not_starts_with: String
+  link_ends_with: String
+  link_not_ends_with: String
+  AND: [RepoScalarWhereInput!]
+  OR: [RepoScalarWhereInput!]
+  NOT: [RepoScalarWhereInput!]
+}
+
+type RepoSubscriptionPayload {
+  mutation: MutationType!
+  node: Repo
+  updatedFields: [String!]
+  previousValues: RepoPreviousValues
+}
+
+input RepoSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: RepoWhereInput
+  AND: [RepoSubscriptionWhereInput!]
+  OR: [RepoSubscriptionWhereInput!]
+  NOT: [RepoSubscriptionWhereInput!]
+}
+
+input RepoUpdateDataInput {
+  name: String
+  description: String
+  languages: RepoUpdatelanguagesInput
+  stars: Int
+  link: String
+  commits: CommitUpdateManyWithoutRepoInput
+}
+
+input RepoUpdateInput {
+  name: String
+  description: String
+  languages: RepoUpdatelanguagesInput
+  stars: Int
+  link: String
+  commits: CommitUpdateManyWithoutRepoInput
+}
+
+input RepoUpdatelanguagesInput {
+  set: [String!]
+}
+
+input RepoUpdateManyDataInput {
+  name: String
+  description: String
+  languages: RepoUpdatelanguagesInput
+  stars: Int
+  link: String
+}
+
+input RepoUpdateManyInput {
+  create: [RepoCreateInput!]
+  update: [RepoUpdateWithWhereUniqueNestedInput!]
+  upsert: [RepoUpsertWithWhereUniqueNestedInput!]
+  delete: [RepoWhereUniqueInput!]
+  connect: [RepoWhereUniqueInput!]
+  set: [RepoWhereUniqueInput!]
+  disconnect: [RepoWhereUniqueInput!]
+  deleteMany: [RepoScalarWhereInput!]
+  updateMany: [RepoUpdateManyWithWhereNestedInput!]
+}
+
+input RepoUpdateManyMutationInput {
+  name: String
+  description: String
+  languages: RepoUpdatelanguagesInput
+  stars: Int
+  link: String
+}
+
+input RepoUpdateManyWithWhereNestedInput {
+  where: RepoScalarWhereInput!
+  data: RepoUpdateManyDataInput!
+}
+
+input RepoUpdateOneRequiredWithoutCommitsInput {
+  create: RepoCreateWithoutCommitsInput
+  update: RepoUpdateWithoutCommitsDataInput
+  upsert: RepoUpsertWithoutCommitsInput
+  connect: RepoWhereUniqueInput
+}
+
+input RepoUpdateWithoutCommitsDataInput {
+  name: String
+  description: String
+  languages: RepoUpdatelanguagesInput
+  stars: Int
+  link: String
+}
+
+input RepoUpdateWithWhereUniqueNestedInput {
+  where: RepoWhereUniqueInput!
+  data: RepoUpdateDataInput!
+}
+
+input RepoUpsertWithoutCommitsInput {
+  update: RepoUpdateWithoutCommitsDataInput!
+  create: RepoCreateWithoutCommitsInput!
+}
+
+input RepoUpsertWithWhereUniqueNestedInput {
+  where: RepoWhereUniqueInput!
+  update: RepoUpdateDataInput!
+  create: RepoCreateInput!
+}
+
+input RepoWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  stars: Int
+  stars_not: Int
+  stars_in: [Int!]
+  stars_not_in: [Int!]
+  stars_lt: Int
+  stars_lte: Int
+  stars_gt: Int
+  stars_gte: Int
+  link: String
+  link_not: String
+  link_in: [String!]
+  link_not_in: [String!]
+  link_lt: String
+  link_lte: String
+  link_gt: String
+  link_gte: String
+  link_contains: String
+  link_not_contains: String
+  link_starts_with: String
+  link_not_starts_with: String
+  link_ends_with: String
+  link_not_ends_with: String
+  commits_every: CommitWhereInput
+  commits_some: CommitWhereInput
+  commits_none: CommitWhereInput
+  AND: [RepoWhereInput!]
+  OR: [RepoWhereInput!]
+  NOT: [RepoWhereInput!]
+}
+
+input RepoWhereUniqueInput {
+  id: ID
+}
+
+type Subscription {
+  commit(where: CommitSubscriptionWhereInput): CommitSubscriptionPayload
+  pullRequest(where: PullRequestSubscriptionWhereInput): PullRequestSubscriptionPayload
+  repo(where: RepoSubscriptionWhereInput): RepoSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type User {
+  id: ID!
+  username: String!
+  repos(where: RepoWhereInput, orderBy: RepoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Repo!]
+  commits(where: CommitWhereInput, orderBy: CommitOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Commit!]
+  pullRequests(where: PullRequestWhereInput, orderBy: PullRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PullRequest!]
+}
+
+type UserConnection {
+  pageInfo: PageInfo!
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  id: ID
+  username: String!
+  repos: RepoCreateManyInput
+  commits: CommitCreateManyWithoutUserInput
+  pullRequests: PullRequestCreateManyWithoutAuthorInput
+}
+
+input UserCreateOneWithoutCommitsInput {
+  create: UserCreateWithoutCommitsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutPullRequestsInput {
+  create: UserCreateWithoutPullRequestsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutCommitsInput {
+  id: ID
+  username: String!
+  repos: RepoCreateManyInput
+  pullRequests: PullRequestCreateManyWithoutAuthorInput
+}
+
+input UserCreateWithoutPullRequestsInput {
+  id: ID
+  username: String!
+  repos: RepoCreateManyInput
+  commits: CommitCreateManyWithoutUserInput
+}
+
+type UserEdge {
+  node: User!
+  cursor: String!
+}
+
+enum UserOrderByInput {
+  id_ASC
+  id_DESC
+  username_ASC
+  username_DESC
+}
+
+type UserPreviousValues {
+  id: ID!
+  username: String!
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+  AND: [UserSubscriptionWhereInput!]
+  OR: [UserSubscriptionWhereInput!]
+  NOT: [UserSubscriptionWhereInput!]
+}
+
+input UserUpdateInput {
+  username: String
+  repos: RepoUpdateManyInput
+  commits: CommitUpdateManyWithoutUserInput
+  pullRequests: PullRequestUpdateManyWithoutAuthorInput
+}
+
+input UserUpdateManyMutationInput {
+  username: String
+}
+
+input UserUpdateOneRequiredWithoutCommitsInput {
+  create: UserCreateWithoutCommitsInput
+  update: UserUpdateWithoutCommitsDataInput
+  upsert: UserUpsertWithoutCommitsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneRequiredWithoutPullRequestsInput {
+  create: UserCreateWithoutPullRequestsInput
+  update: UserUpdateWithoutPullRequestsDataInput
+  upsert: UserUpsertWithoutPullRequestsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutCommitsDataInput {
+  username: String
+  repos: RepoUpdateManyInput
+  pullRequests: PullRequestUpdateManyWithoutAuthorInput
+}
+
+input UserUpdateWithoutPullRequestsDataInput {
+  username: String
+  repos: RepoUpdateManyInput
+  commits: CommitUpdateManyWithoutUserInput
+}
+
+input UserUpsertWithoutCommitsInput {
+  update: UserUpdateWithoutCommitsDataInput!
+  create: UserCreateWithoutCommitsInput!
+}
+
+input UserUpsertWithoutPullRequestsInput {
+  update: UserUpdateWithoutPullRequestsDataInput!
+  create: UserCreateWithoutPullRequestsInput!
+}
+
+input UserWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  username: String
+  username_not: String
+  username_in: [String!]
+  username_not_in: [String!]
+  username_lt: String
+  username_lte: String
+  username_gt: String
+  username_gte: String
+  username_contains: String
+  username_not_contains: String
+  username_starts_with: String
+  username_not_starts_with: String
+  username_ends_with: String
+  username_not_ends_with: String
+  repos_every: RepoWhereInput
+  repos_some: RepoWhereInput
+  repos_none: RepoWhereInput
+  commits_every: CommitWhereInput
+  commits_some: CommitWhereInput
+  commits_none: CommitWhereInput
+  pullRequests_every: PullRequestWhereInput
+  pullRequests_some: PullRequestWhereInput
+  pullRequests_none: PullRequestWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
 }
 
 input UserWhereUniqueInput {
-  id: ID
-  email: String
-}
-
-type Vote {
-  id: ID!
-  link: Link!
-  user: User!
-}
-
-type VoteConnection {
-  pageInfo: PageInfo!
-  edges: [VoteEdge]!
-  aggregate: AggregateVote!
-}
-
-input VoteCreateInput {
-  id: ID
-  link: LinkCreateOneWithoutVotesInput!
-  user: UserCreateOneWithoutVotesInput!
-}
-
-input VoteCreateManyWithoutLinkInput {
-  create: [VoteCreateWithoutLinkInput!]
-  connect: [VoteWhereUniqueInput!]
-}
-
-input VoteCreateManyWithoutUserInput {
-  create: [VoteCreateWithoutUserInput!]
-  connect: [VoteWhereUniqueInput!]
-}
-
-input VoteCreateWithoutLinkInput {
-  id: ID
-  user: UserCreateOneWithoutVotesInput!
-}
-
-input VoteCreateWithoutUserInput {
-  id: ID
-  link: LinkCreateOneWithoutVotesInput!
-}
-
-type VoteEdge {
-  node: Vote!
-  cursor: String!
-}
-
-enum VoteOrderByInput {
-  id_ASC
-  id_DESC
-}
-
-type VotePreviousValues {
-  id: ID!
-}
-
-input VoteScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  AND: [VoteScalarWhereInput!]
-  OR: [VoteScalarWhereInput!]
-  NOT: [VoteScalarWhereInput!]
-}
-
-type VoteSubscriptionPayload {
-  mutation: MutationType!
-  node: Vote
-  updatedFields: [String!]
-  previousValues: VotePreviousValues
-}
-
-input VoteSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: VoteWhereInput
-  AND: [VoteSubscriptionWhereInput!]
-  OR: [VoteSubscriptionWhereInput!]
-  NOT: [VoteSubscriptionWhereInput!]
-}
-
-input VoteUpdateInput {
-  link: LinkUpdateOneRequiredWithoutVotesInput
-  user: UserUpdateOneRequiredWithoutVotesInput
-}
-
-input VoteUpdateManyWithoutLinkInput {
-  create: [VoteCreateWithoutLinkInput!]
-  delete: [VoteWhereUniqueInput!]
-  connect: [VoteWhereUniqueInput!]
-  set: [VoteWhereUniqueInput!]
-  disconnect: [VoteWhereUniqueInput!]
-  update: [VoteUpdateWithWhereUniqueWithoutLinkInput!]
-  upsert: [VoteUpsertWithWhereUniqueWithoutLinkInput!]
-  deleteMany: [VoteScalarWhereInput!]
-}
-
-input VoteUpdateManyWithoutUserInput {
-  create: [VoteCreateWithoutUserInput!]
-  delete: [VoteWhereUniqueInput!]
-  connect: [VoteWhereUniqueInput!]
-  set: [VoteWhereUniqueInput!]
-  disconnect: [VoteWhereUniqueInput!]
-  update: [VoteUpdateWithWhereUniqueWithoutUserInput!]
-  upsert: [VoteUpsertWithWhereUniqueWithoutUserInput!]
-  deleteMany: [VoteScalarWhereInput!]
-}
-
-input VoteUpdateWithoutLinkDataInput {
-  user: UserUpdateOneRequiredWithoutVotesInput
-}
-
-input VoteUpdateWithoutUserDataInput {
-  link: LinkUpdateOneRequiredWithoutVotesInput
-}
-
-input VoteUpdateWithWhereUniqueWithoutLinkInput {
-  where: VoteWhereUniqueInput!
-  data: VoteUpdateWithoutLinkDataInput!
-}
-
-input VoteUpdateWithWhereUniqueWithoutUserInput {
-  where: VoteWhereUniqueInput!
-  data: VoteUpdateWithoutUserDataInput!
-}
-
-input VoteUpsertWithWhereUniqueWithoutLinkInput {
-  where: VoteWhereUniqueInput!
-  update: VoteUpdateWithoutLinkDataInput!
-  create: VoteCreateWithoutLinkInput!
-}
-
-input VoteUpsertWithWhereUniqueWithoutUserInput {
-  where: VoteWhereUniqueInput!
-  update: VoteUpdateWithoutUserDataInput!
-  create: VoteCreateWithoutUserInput!
-}
-
-input VoteWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  link: LinkWhereInput
-  user: UserWhereInput
-  AND: [VoteWhereInput!]
-  OR: [VoteWhereInput!]
-  NOT: [VoteWhereInput!]
-}
-
-input VoteWhereUniqueInput {
   id: ID
 }
 `

@@ -1,23 +1,23 @@
 type User {
-  id: ID! @unique
-  username: String! @unique
+  id: ID! @id
+  username: String!
   repos: [Repo!]!
   commits: [Commit!]!
   pullRequests: [PullRequest!]!
 }
 
 type Repo {
-  id: ID! @unique
+  id: ID! @id
   name: String!
   description: String
-  languages: [String!]!
+  languages: [String!]! @scalarList(strategy: RELATION)
   stars: Int
   link: String!
   commits: [Commit!]!
 }
 
 type Commit {
-  id: ID! @unique
+  id: ID! @id
   message: String!
   user: User!
   date: String!
@@ -25,7 +25,7 @@ type Commit {
 }
 
 type PullRequest {
-  id: ID! @unique
+  id: ID! @id
   author: User!
   title: String!
   merged: Boolean!
