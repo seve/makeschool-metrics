@@ -1,6 +1,5 @@
 const users = (parent, args, context, info) => {
-  // return context.prisma.links();
-  return [];
+  return context.prisma.users();
 };
 
 const repos = (parent, args, context, info) => {
