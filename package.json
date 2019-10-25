@@ -3,6 +3,7 @@
     "start": "./node_modules/.bin/nodemon ./src/index.js --watch ./src --exec 'node --require dotenv/config --require babel-register'"
   },
   "dependencies": {
+    "@octokit/graphql": "^4.2.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "github-webhook-handler": "^1.0.0",
