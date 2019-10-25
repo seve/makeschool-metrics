@@ -22,7 +22,39 @@ export default () => {
     console.error("Error:", err.message);
   });
 
-  handler.on("star", event => {
-    console.log(event);
+  handler.on("star", async event => {
+    const { id, login } = event.payload.sender;
+    if (event.payload.action == "deleted") {
+      const deletedUser = await prisma.deleteUser({
+        id
+      });
+      const numberDeletedCommits = await prisma
+        .deleteManyCommits({
+          user: deletedUser
+        })
+        .count();
+
+      const numberDeletedPullRequests = await prisma
+        .deleteManyPullRequests({
+          author: deletedUser
+        })
+        .count();
+
+      const numberDeletedRepos = await prisma
+        .deleteManyRepoes({
+          commits_every: {},
+          pullRequests_every: {}
+        })
+        .count();
+
+      console.log("Deleted user:", deletedUser);
+      console.log("Number of deleted repos:", numberDeletedRepos);
+    } else {
+      const addedUser = await prisma.createUser({
+        id,
+        username: login
+      });
+      console.log("added user:", addedUser);
+    }
   });
 };
