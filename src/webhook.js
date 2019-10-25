@@ -1,5 +1,8 @@
 import http from "http";
 import createHandler from "github-webhook-handler";
+import { graphql } from "@octokit/graphql";
+
+import { prisma } from "./generated/prisma-client";
 
 export default () => {
   const handler = createHandler({
@@ -50,6 +53,37 @@ export default () => {
       console.log("Deleted user:", deletedUser);
       console.log("Number of deleted repos:", numberDeletedRepos);
     } else {
+      const { user } = await graphql({
+        query: `
+          query userCommits($username: String!) {
+            user(login: $username) {
+              repositories(first: 100) {
+                nodes {
+                  id
+                  name
+                  description
+                  languages(first: 3) {
+                    nodes {
+                      name
+                    }
+                  }
+                  stargazers {
+                    totalCount
+                  }
+                  url
+                }
+              }
+            }
+          }
+        `,
+        username: login,
+        headers: {
+          authorization: `token ${process.env.GITHUB_SECRET}`
+        }
+      });
+
+      console.log(user);
+
       const addedUser = await prisma.createUser({
         id,
         username: login
