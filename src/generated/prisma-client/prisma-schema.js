@@ -340,6 +340,7 @@ type PullRequest {
   author: User!
   title: String!
   merged: Boolean!
+  repo: Repo!
 }
 
 type PullRequestConnection {
@@ -353,6 +354,7 @@ input PullRequestCreateInput {
   author: UserCreateOneWithoutPullRequestsInput!
   title: String!
   merged: Boolean!
+  repo: RepoCreateOneWithoutPullRequestsInput!
 }
 
 input PullRequestCreateManyWithoutAuthorInput {
@@ -360,8 +362,21 @@ input PullRequestCreateManyWithoutAuthorInput {
   connect: [PullRequestWhereUniqueInput!]
 }
 
+input PullRequestCreateManyWithoutRepoInput {
+  create: [PullRequestCreateWithoutRepoInput!]
+  connect: [PullRequestWhereUniqueInput!]
+}
+
 input PullRequestCreateWithoutAuthorInput {
   id: ID
+  title: String!
+  merged: Boolean!
+  repo: RepoCreateOneWithoutPullRequestsInput!
+}
+
+input PullRequestCreateWithoutRepoInput {
+  id: ID
+  author: UserCreateOneWithoutPullRequestsInput!
   title: String!
   merged: Boolean!
 }
@@ -444,6 +459,7 @@ input PullRequestUpdateInput {
   author: UserUpdateOneRequiredWithoutPullRequestsInput
   title: String
   merged: Boolean
+  repo: RepoUpdateOneRequiredWithoutPullRequestsInput
 }
 
 input PullRequestUpdateManyDataInput {
@@ -468,12 +484,31 @@ input PullRequestUpdateManyWithoutAuthorInput {
   updateMany: [PullRequestUpdateManyWithWhereNestedInput!]
 }
 
+input PullRequestUpdateManyWithoutRepoInput {
+  create: [PullRequestCreateWithoutRepoInput!]
+  delete: [PullRequestWhereUniqueInput!]
+  connect: [PullRequestWhereUniqueInput!]
+  set: [PullRequestWhereUniqueInput!]
+  disconnect: [PullRequestWhereUniqueInput!]
+  update: [PullRequestUpdateWithWhereUniqueWithoutRepoInput!]
+  upsert: [PullRequestUpsertWithWhereUniqueWithoutRepoInput!]
+  deleteMany: [PullRequestScalarWhereInput!]
+  updateMany: [PullRequestUpdateManyWithWhereNestedInput!]
+}
+
 input PullRequestUpdateManyWithWhereNestedInput {
   where: PullRequestScalarWhereInput!
   data: PullRequestUpdateManyDataInput!
 }
 
 input PullRequestUpdateWithoutAuthorDataInput {
+  title: String
+  merged: Boolean
+  repo: RepoUpdateOneRequiredWithoutPullRequestsInput
+}
+
+input PullRequestUpdateWithoutRepoDataInput {
+  author: UserUpdateOneRequiredWithoutPullRequestsInput
   title: String
   merged: Boolean
 }
@@ -483,10 +518,21 @@ input PullRequestUpdateWithWhereUniqueWithoutAuthorInput {
   data: PullRequestUpdateWithoutAuthorDataInput!
 }
 
+input PullRequestUpdateWithWhereUniqueWithoutRepoInput {
+  where: PullRequestWhereUniqueInput!
+  data: PullRequestUpdateWithoutRepoDataInput!
+}
+
 input PullRequestUpsertWithWhereUniqueWithoutAuthorInput {
   where: PullRequestWhereUniqueInput!
   update: PullRequestUpdateWithoutAuthorDataInput!
   create: PullRequestCreateWithoutAuthorInput!
+}
+
+input PullRequestUpsertWithWhereUniqueWithoutRepoInput {
+  where: PullRequestWhereUniqueInput!
+  update: PullRequestUpdateWithoutRepoDataInput!
+  create: PullRequestCreateWithoutRepoInput!
 }
 
 input PullRequestWhereInput {
@@ -521,6 +567,7 @@ input PullRequestWhereInput {
   title_not_ends_with: String
   merged: Boolean
   merged_not: Boolean
+  repo: RepoWhereInput
   AND: [PullRequestWhereInput!]
   OR: [PullRequestWhereInput!]
   NOT: [PullRequestWhereInput!]
@@ -554,6 +601,8 @@ type Repo {
   stars: Int
   link: String!
   commits(where: CommitWhereInput, orderBy: CommitOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Commit!]
+  owner: User!
+  pullRequests(where: PullRequestWhereInput, orderBy: PullRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PullRequest!]
 }
 
 type RepoConnection {
@@ -570,19 +619,26 @@ input RepoCreateInput {
   stars: Int
   link: String!
   commits: CommitCreateManyWithoutRepoInput
+  owner: UserCreateOneWithoutReposInput!
+  pullRequests: PullRequestCreateManyWithoutRepoInput
 }
 
 input RepoCreatelanguagesInput {
   set: [String!]
 }
 
-input RepoCreateManyInput {
-  create: [RepoCreateInput!]
+input RepoCreateManyWithoutOwnerInput {
+  create: [RepoCreateWithoutOwnerInput!]
   connect: [RepoWhereUniqueInput!]
 }
 
 input RepoCreateOneWithoutCommitsInput {
   create: RepoCreateWithoutCommitsInput
+  connect: RepoWhereUniqueInput
+}
+
+input RepoCreateOneWithoutPullRequestsInput {
+  create: RepoCreateWithoutPullRequestsInput
   connect: RepoWhereUniqueInput
 }
 
@@ -593,6 +649,30 @@ input RepoCreateWithoutCommitsInput {
   languages: RepoCreatelanguagesInput
   stars: Int
   link: String!
+  owner: UserCreateOneWithoutReposInput!
+  pullRequests: PullRequestCreateManyWithoutRepoInput
+}
+
+input RepoCreateWithoutOwnerInput {
+  id: ID
+  name: String!
+  description: String
+  languages: RepoCreatelanguagesInput
+  stars: Int
+  link: String!
+  commits: CommitCreateManyWithoutRepoInput
+  pullRequests: PullRequestCreateManyWithoutRepoInput
+}
+
+input RepoCreateWithoutPullRequestsInput {
+  id: ID
+  name: String!
+  description: String
+  languages: RepoCreatelanguagesInput
+  stars: Int
+  link: String!
+  commits: CommitCreateManyWithoutRepoInput
+  owner: UserCreateOneWithoutReposInput!
 }
 
 type RepoEdge {
@@ -710,15 +790,6 @@ input RepoSubscriptionWhereInput {
   NOT: [RepoSubscriptionWhereInput!]
 }
 
-input RepoUpdateDataInput {
-  name: String
-  description: String
-  languages: RepoUpdatelanguagesInput
-  stars: Int
-  link: String
-  commits: CommitUpdateManyWithoutRepoInput
-}
-
 input RepoUpdateInput {
   name: String
   description: String
@@ -726,6 +797,8 @@ input RepoUpdateInput {
   stars: Int
   link: String
   commits: CommitUpdateManyWithoutRepoInput
+  owner: UserUpdateOneRequiredWithoutReposInput
+  pullRequests: PullRequestUpdateManyWithoutRepoInput
 }
 
 input RepoUpdatelanguagesInput {
@@ -740,24 +813,24 @@ input RepoUpdateManyDataInput {
   link: String
 }
 
-input RepoUpdateManyInput {
-  create: [RepoCreateInput!]
-  update: [RepoUpdateWithWhereUniqueNestedInput!]
-  upsert: [RepoUpsertWithWhereUniqueNestedInput!]
-  delete: [RepoWhereUniqueInput!]
-  connect: [RepoWhereUniqueInput!]
-  set: [RepoWhereUniqueInput!]
-  disconnect: [RepoWhereUniqueInput!]
-  deleteMany: [RepoScalarWhereInput!]
-  updateMany: [RepoUpdateManyWithWhereNestedInput!]
-}
-
 input RepoUpdateManyMutationInput {
   name: String
   description: String
   languages: RepoUpdatelanguagesInput
   stars: Int
   link: String
+}
+
+input RepoUpdateManyWithoutOwnerInput {
+  create: [RepoCreateWithoutOwnerInput!]
+  delete: [RepoWhereUniqueInput!]
+  connect: [RepoWhereUniqueInput!]
+  set: [RepoWhereUniqueInput!]
+  disconnect: [RepoWhereUniqueInput!]
+  update: [RepoUpdateWithWhereUniqueWithoutOwnerInput!]
+  upsert: [RepoUpsertWithWhereUniqueWithoutOwnerInput!]
+  deleteMany: [RepoScalarWhereInput!]
+  updateMany: [RepoUpdateManyWithWhereNestedInput!]
 }
 
 input RepoUpdateManyWithWhereNestedInput {
@@ -772,17 +845,46 @@ input RepoUpdateOneRequiredWithoutCommitsInput {
   connect: RepoWhereUniqueInput
 }
 
+input RepoUpdateOneRequiredWithoutPullRequestsInput {
+  create: RepoCreateWithoutPullRequestsInput
+  update: RepoUpdateWithoutPullRequestsDataInput
+  upsert: RepoUpsertWithoutPullRequestsInput
+  connect: RepoWhereUniqueInput
+}
+
 input RepoUpdateWithoutCommitsDataInput {
   name: String
   description: String
   languages: RepoUpdatelanguagesInput
   stars: Int
   link: String
+  owner: UserUpdateOneRequiredWithoutReposInput
+  pullRequests: PullRequestUpdateManyWithoutRepoInput
 }
 
-input RepoUpdateWithWhereUniqueNestedInput {
+input RepoUpdateWithoutOwnerDataInput {
+  name: String
+  description: String
+  languages: RepoUpdatelanguagesInput
+  stars: Int
+  link: String
+  commits: CommitUpdateManyWithoutRepoInput
+  pullRequests: PullRequestUpdateManyWithoutRepoInput
+}
+
+input RepoUpdateWithoutPullRequestsDataInput {
+  name: String
+  description: String
+  languages: RepoUpdatelanguagesInput
+  stars: Int
+  link: String
+  commits: CommitUpdateManyWithoutRepoInput
+  owner: UserUpdateOneRequiredWithoutReposInput
+}
+
+input RepoUpdateWithWhereUniqueWithoutOwnerInput {
   where: RepoWhereUniqueInput!
-  data: RepoUpdateDataInput!
+  data: RepoUpdateWithoutOwnerDataInput!
 }
 
 input RepoUpsertWithoutCommitsInput {
@@ -790,10 +892,15 @@ input RepoUpsertWithoutCommitsInput {
   create: RepoCreateWithoutCommitsInput!
 }
 
-input RepoUpsertWithWhereUniqueNestedInput {
+input RepoUpsertWithoutPullRequestsInput {
+  update: RepoUpdateWithoutPullRequestsDataInput!
+  create: RepoCreateWithoutPullRequestsInput!
+}
+
+input RepoUpsertWithWhereUniqueWithoutOwnerInput {
   where: RepoWhereUniqueInput!
-  update: RepoUpdateDataInput!
-  create: RepoCreateInput!
+  update: RepoUpdateWithoutOwnerDataInput!
+  create: RepoCreateWithoutOwnerInput!
 }
 
 input RepoWhereInput {
@@ -864,6 +971,10 @@ input RepoWhereInput {
   commits_every: CommitWhereInput
   commits_some: CommitWhereInput
   commits_none: CommitWhereInput
+  owner: UserWhereInput
+  pullRequests_every: PullRequestWhereInput
+  pullRequests_some: PullRequestWhereInput
+  pullRequests_none: PullRequestWhereInput
   AND: [RepoWhereInput!]
   OR: [RepoWhereInput!]
   NOT: [RepoWhereInput!]
@@ -897,7 +1008,7 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   username: String!
-  repos: RepoCreateManyInput
+  repos: RepoCreateManyWithoutOwnerInput
   commits: CommitCreateManyWithoutUserInput
   pullRequests: PullRequestCreateManyWithoutAuthorInput
 }
@@ -912,18 +1023,30 @@ input UserCreateOneWithoutPullRequestsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateOneWithoutReposInput {
+  create: UserCreateWithoutReposInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreateWithoutCommitsInput {
   id: ID
   username: String!
-  repos: RepoCreateManyInput
+  repos: RepoCreateManyWithoutOwnerInput
   pullRequests: PullRequestCreateManyWithoutAuthorInput
 }
 
 input UserCreateWithoutPullRequestsInput {
   id: ID
   username: String!
-  repos: RepoCreateManyInput
+  repos: RepoCreateManyWithoutOwnerInput
   commits: CommitCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutReposInput {
+  id: ID
+  username: String!
+  commits: CommitCreateManyWithoutUserInput
+  pullRequests: PullRequestCreateManyWithoutAuthorInput
 }
 
 type UserEdge {
@@ -963,7 +1086,7 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   username: String
-  repos: RepoUpdateManyInput
+  repos: RepoUpdateManyWithoutOwnerInput
   commits: CommitUpdateManyWithoutUserInput
   pullRequests: PullRequestUpdateManyWithoutAuthorInput
 }
@@ -986,16 +1109,29 @@ input UserUpdateOneRequiredWithoutPullRequestsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateOneRequiredWithoutReposInput {
+  create: UserCreateWithoutReposInput
+  update: UserUpdateWithoutReposDataInput
+  upsert: UserUpsertWithoutReposInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateWithoutCommitsDataInput {
   username: String
-  repos: RepoUpdateManyInput
+  repos: RepoUpdateManyWithoutOwnerInput
   pullRequests: PullRequestUpdateManyWithoutAuthorInput
 }
 
 input UserUpdateWithoutPullRequestsDataInput {
   username: String
-  repos: RepoUpdateManyInput
+  repos: RepoUpdateManyWithoutOwnerInput
   commits: CommitUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutReposDataInput {
+  username: String
+  commits: CommitUpdateManyWithoutUserInput
+  pullRequests: PullRequestUpdateManyWithoutAuthorInput
 }
 
 input UserUpsertWithoutCommitsInput {
@@ -1006,6 +1142,11 @@ input UserUpsertWithoutCommitsInput {
 input UserUpsertWithoutPullRequestsInput {
   update: UserUpdateWithoutPullRequestsDataInput!
   create: UserCreateWithoutPullRequestsInput!
+}
+
+input UserUpsertWithoutReposInput {
+  update: UserUpdateWithoutReposDataInput!
+  create: UserCreateWithoutReposInput!
 }
 
 input UserWhereInput {

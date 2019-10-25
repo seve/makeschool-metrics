@@ -14,6 +14,8 @@ type Repo {
   stars: Int
   link: String!
   commits: [Commit!]!
+  owner: User!
+  pullRequests: [PullRequest!]!
 }
 
 type Commit {
@@ -29,4 +31,5 @@ type PullRequest {
   author: User!
   title: String!
   merged: Boolean!
+  repo: Repo!
 }

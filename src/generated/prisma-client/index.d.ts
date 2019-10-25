@@ -258,19 +258,77 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface CommitUpdateWithoutRepoDataInput {
-  message?: Maybe<String>;
-  user?: Maybe<UserUpdateOneRequiredWithoutCommitsInput>;
-  date?: Maybe<String>;
+export interface CommitUpdateManyWithoutRepoInput {
+  create?: Maybe<CommitCreateWithoutRepoInput[] | CommitCreateWithoutRepoInput>;
+  delete?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  connect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  set?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  disconnect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  update?: Maybe<
+    | CommitUpdateWithWhereUniqueWithoutRepoInput[]
+    | CommitUpdateWithWhereUniqueWithoutRepoInput
+  >;
+  upsert?: Maybe<
+    | CommitUpsertWithWhereUniqueWithoutRepoInput[]
+    | CommitUpsertWithWhereUniqueWithoutRepoInput
+  >;
+  deleteMany?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
+  updateMany?: Maybe<
+    | CommitUpdateManyWithWhereNestedInput[]
+    | CommitUpdateManyWithWhereNestedInput
+  >;
 }
 
 export type CommitWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface CommitUpdateManyWithWhereNestedInput {
-  where: CommitScalarWhereInput;
-  data: CommitUpdateManyDataInput;
+export interface CommitScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  message?: Maybe<String>;
+  message_not?: Maybe<String>;
+  message_in?: Maybe<String[] | String>;
+  message_not_in?: Maybe<String[] | String>;
+  message_lt?: Maybe<String>;
+  message_lte?: Maybe<String>;
+  message_gt?: Maybe<String>;
+  message_gte?: Maybe<String>;
+  message_contains?: Maybe<String>;
+  message_not_contains?: Maybe<String>;
+  message_starts_with?: Maybe<String>;
+  message_not_starts_with?: Maybe<String>;
+  message_ends_with?: Maybe<String>;
+  message_not_ends_with?: Maybe<String>;
+  date?: Maybe<String>;
+  date_not?: Maybe<String>;
+  date_in?: Maybe<String[] | String>;
+  date_not_in?: Maybe<String[] | String>;
+  date_lt?: Maybe<String>;
+  date_lte?: Maybe<String>;
+  date_gt?: Maybe<String>;
+  date_gte?: Maybe<String>;
+  date_contains?: Maybe<String>;
+  date_not_contains?: Maybe<String>;
+  date_starts_with?: Maybe<String>;
+  date_not_starts_with?: Maybe<String>;
+  date_ends_with?: Maybe<String>;
+  date_not_ends_with?: Maybe<String>;
+  AND?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
+  OR?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
+  NOT?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
 }
 
 export interface CommitWhereInput {
@@ -323,9 +381,9 @@ export interface CommitWhereInput {
   NOT?: Maybe<CommitWhereInput[] | CommitWhereInput>;
 }
 
-export interface CommitUpdateManyDataInput {
-  message?: Maybe<String>;
-  date?: Maybe<String>;
+export interface CommitUpdateManyWithWhereNestedInput {
+  where: CommitScalarWhereInput;
+  data: CommitUpdateManyDataInput;
 }
 
 export interface PullRequestWhereInput {
@@ -360,9 +418,37 @@ export interface PullRequestWhereInput {
   title_not_ends_with?: Maybe<String>;
   merged?: Maybe<Boolean>;
   merged_not?: Maybe<Boolean>;
+  repo?: Maybe<RepoWhereInput>;
   AND?: Maybe<PullRequestWhereInput[] | PullRequestWhereInput>;
   OR?: Maybe<PullRequestWhereInput[] | PullRequestWhereInput>;
   NOT?: Maybe<PullRequestWhereInput[] | PullRequestWhereInput>;
+}
+
+export interface RepoCreateOneWithoutPullRequestsInput {
+  create?: Maybe<RepoCreateWithoutPullRequestsInput>;
+  connect?: Maybe<RepoWhereUniqueInput>;
+}
+
+export interface PullRequestUpsertWithWhereUniqueWithoutRepoInput {
+  where: PullRequestWhereUniqueInput;
+  update: PullRequestUpdateWithoutRepoDataInput;
+  create: PullRequestCreateWithoutRepoInput;
+}
+
+export interface RepoCreateWithoutPullRequestsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoCreatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link: String;
+  commits?: Maybe<CommitCreateManyWithoutRepoInput>;
+  owner: UserCreateOneWithoutReposInput;
+}
+
+export interface CommitUpdateManyDataInput {
+  message?: Maybe<String>;
+  date?: Maybe<String>;
 }
 
 export interface CommitUpdateInput {
@@ -370,30 +456,6 @@ export interface CommitUpdateInput {
   user?: Maybe<UserUpdateOneRequiredWithoutCommitsInput>;
   date?: Maybe<String>;
   repo?: Maybe<RepoUpdateOneRequiredWithoutCommitsInput>;
-}
-
-export interface UserCreateOneWithoutPullRequestsInput {
-  create?: Maybe<UserCreateWithoutPullRequestsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserUpdateOneRequiredWithoutCommitsInput {
-  create?: Maybe<UserCreateWithoutCommitsInput>;
-  update?: Maybe<UserUpdateWithoutCommitsDataInput>;
-  upsert?: Maybe<UserUpsertWithoutCommitsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface RepoUpsertWithWhereUniqueNestedInput {
-  where: RepoWhereUniqueInput;
-  update: RepoUpdateDataInput;
-  create: RepoCreateInput;
-}
-
-export interface UserUpdateWithoutCommitsDataInput {
-  username?: Maybe<String>;
-  repos?: Maybe<RepoUpdateManyInput>;
-  pullRequests?: Maybe<PullRequestUpdateManyWithoutAuthorInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -407,24 +469,11 @@ export interface UserSubscriptionWhereInput {
   NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
-export interface RepoUpdateManyInput {
-  create?: Maybe<RepoCreateInput[] | RepoCreateInput>;
-  update?: Maybe<
-    | RepoUpdateWithWhereUniqueNestedInput[]
-    | RepoUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | RepoUpsertWithWhereUniqueNestedInput[]
-    | RepoUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
-  connect?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
-  set?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
-  disconnect?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
-  deleteMany?: Maybe<RepoScalarWhereInput[] | RepoScalarWhereInput>;
-  updateMany?: Maybe<
-    RepoUpdateManyWithWhereNestedInput[] | RepoUpdateManyWithWhereNestedInput
-  >;
+export interface UserUpdateOneRequiredWithoutCommitsInput {
+  create?: Maybe<UserCreateWithoutCommitsInput>;
+  update?: Maybe<UserUpdateWithoutCommitsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutCommitsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
 export interface PullRequestSubscriptionWhereInput {
@@ -444,30 +493,43 @@ export interface PullRequestSubscriptionWhereInput {
   >;
 }
 
-export interface RepoUpdateWithWhereUniqueNestedInput {
-  where: RepoWhereUniqueInput;
-  data: RepoUpdateDataInput;
+export interface UserUpdateWithoutCommitsDataInput {
+  username?: Maybe<String>;
+  repos?: Maybe<RepoUpdateManyWithoutOwnerInput>;
+  pullRequests?: Maybe<PullRequestUpdateManyWithoutAuthorInput>;
 }
 
 export interface UserUpdateManyMutationInput {
   username?: Maybe<String>;
 }
 
-export interface RepoUpdateDataInput {
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  languages?: Maybe<RepoUpdatelanguagesInput>;
-  stars?: Maybe<Int>;
-  link?: Maybe<String>;
-  commits?: Maybe<CommitUpdateManyWithoutRepoInput>;
+export interface RepoUpdateManyWithoutOwnerInput {
+  create?: Maybe<RepoCreateWithoutOwnerInput[] | RepoCreateWithoutOwnerInput>;
+  delete?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
+  connect?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
+  set?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
+  disconnect?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
+  update?: Maybe<
+    | RepoUpdateWithWhereUniqueWithoutOwnerInput[]
+    | RepoUpdateWithWhereUniqueWithoutOwnerInput
+  >;
+  upsert?: Maybe<
+    | RepoUpsertWithWhereUniqueWithoutOwnerInput[]
+    | RepoUpsertWithWhereUniqueWithoutOwnerInput
+  >;
+  deleteMany?: Maybe<RepoScalarWhereInput[] | RepoScalarWhereInput>;
+  updateMany?: Maybe<
+    RepoUpdateManyWithWhereNestedInput[] | RepoUpdateManyWithWhereNestedInput
+  >;
 }
 
 export type PullRequestWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface RepoUpdatelanguagesInput {
-  set?: Maybe<String[] | String>;
+export interface RepoUpdateWithWhereUniqueWithoutOwnerInput {
+  where: RepoWhereUniqueInput;
+  data: RepoUpdateWithoutOwnerDataInput;
 }
 
 export interface RepoUpdateManyMutationInput {
@@ -478,28 +540,35 @@ export interface RepoUpdateManyMutationInput {
   link?: Maybe<String>;
 }
 
-export interface CommitUpdateManyWithoutRepoInput {
-  create?: Maybe<CommitCreateWithoutRepoInput[] | CommitCreateWithoutRepoInput>;
-  delete?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
-  connect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
-  set?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
-  disconnect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
-  update?: Maybe<
-    | CommitUpdateWithWhereUniqueWithoutRepoInput[]
-    | CommitUpdateWithWhereUniqueWithoutRepoInput
-  >;
-  upsert?: Maybe<
-    | CommitUpsertWithWhereUniqueWithoutRepoInput[]
-    | CommitUpsertWithWhereUniqueWithoutRepoInput
-  >;
-  deleteMany?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
-  updateMany?: Maybe<
-    | CommitUpdateManyWithWhereNestedInput[]
-    | CommitUpdateManyWithWhereNestedInput
-  >;
+export interface RepoUpdateWithoutOwnerDataInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoUpdatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link?: Maybe<String>;
+  commits?: Maybe<CommitUpdateManyWithoutRepoInput>;
+  pullRequests?: Maybe<PullRequestUpdateManyWithoutRepoInput>;
 }
 
 export type RepoWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface RepoUpdatelanguagesInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface PullRequestUpdateManyMutationInput {
+  title?: Maybe<String>;
+  merged?: Maybe<Boolean>;
+}
+
+export interface RepoUpdateManyWithWhereNestedInput {
+  where: RepoScalarWhereInput;
+  data: RepoUpdateManyDataInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -508,21 +577,24 @@ export interface CommitUpdateWithWhereUniqueWithoutRepoInput {
   data: CommitUpdateWithoutRepoDataInput;
 }
 
-export interface UserUpsertWithoutPullRequestsInput {
-  update: UserUpdateWithoutPullRequestsDataInput;
-  create: UserCreateWithoutPullRequestsInput;
+export interface CommitUpdateManyMutationInput {
+  message?: Maybe<String>;
+  date?: Maybe<String>;
 }
 
-export interface UserUpdateOneRequiredWithoutPullRequestsInput {
-  create?: Maybe<UserCreateWithoutPullRequestsInput>;
-  update?: Maybe<UserUpdateWithoutPullRequestsDataInput>;
-  upsert?: Maybe<UserUpsertWithoutPullRequestsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface CommitUpdateWithoutRepoDataInput {
+  message?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredWithoutCommitsInput>;
+  date?: Maybe<String>;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
+export interface RepoUpdateManyDataInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoUpdatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link?: Maybe<String>;
+}
 
 export interface CommitUpsertWithWhereUniqueWithoutRepoInput {
   where: CommitWhereUniqueInput;
@@ -530,63 +602,12 @@ export interface CommitUpsertWithWhereUniqueWithoutRepoInput {
   create: CommitCreateWithoutRepoInput;
 }
 
-export interface CommitUpdateWithWhereUniqueWithoutUserInput {
-  where: CommitWhereUniqueInput;
-  data: CommitUpdateWithoutUserDataInput;
-}
-
-export interface CommitScalarWhereInput {
+export interface CommitCreateInput {
   id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  message?: Maybe<String>;
-  message_not?: Maybe<String>;
-  message_in?: Maybe<String[] | String>;
-  message_not_in?: Maybe<String[] | String>;
-  message_lt?: Maybe<String>;
-  message_lte?: Maybe<String>;
-  message_gt?: Maybe<String>;
-  message_gte?: Maybe<String>;
-  message_contains?: Maybe<String>;
-  message_not_contains?: Maybe<String>;
-  message_starts_with?: Maybe<String>;
-  message_not_starts_with?: Maybe<String>;
-  message_ends_with?: Maybe<String>;
-  message_not_ends_with?: Maybe<String>;
-  date?: Maybe<String>;
-  date_not?: Maybe<String>;
-  date_in?: Maybe<String[] | String>;
-  date_not_in?: Maybe<String[] | String>;
-  date_lt?: Maybe<String>;
-  date_lte?: Maybe<String>;
-  date_gt?: Maybe<String>;
-  date_gte?: Maybe<String>;
-  date_contains?: Maybe<String>;
-  date_not_contains?: Maybe<String>;
-  date_starts_with?: Maybe<String>;
-  date_not_starts_with?: Maybe<String>;
-  date_ends_with?: Maybe<String>;
-  date_not_ends_with?: Maybe<String>;
-  AND?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
-  OR?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
-  NOT?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
-}
-
-export interface UserUpdateWithoutPullRequestsDataInput {
-  username?: Maybe<String>;
-  repos?: Maybe<RepoUpdateManyInput>;
-  commits?: Maybe<CommitUpdateManyWithoutUserInput>;
+  message: String;
+  user: UserCreateOneWithoutCommitsInput;
+  date: String;
+  repo: RepoCreateOneWithoutCommitsInput;
 }
 
 export interface UserWhereInput {
@@ -632,42 +653,11 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface CommitCreateInput {
-  id?: Maybe<ID_Input>;
-  message: String;
-  user: UserCreateOneWithoutCommitsInput;
-  date: String;
-  repo: RepoCreateOneWithoutCommitsInput;
-}
-
-export interface PullRequestUpdateInput {
-  author?: Maybe<UserUpdateOneRequiredWithoutPullRequestsInput>;
-  title?: Maybe<String>;
-  merged?: Maybe<Boolean>;
-}
-
 export interface UserCreateWithoutCommitsInput {
   id?: Maybe<ID_Input>;
   username: String;
-  repos?: Maybe<RepoCreateManyInput>;
+  repos?: Maybe<RepoCreateManyWithoutOwnerInput>;
   pullRequests?: Maybe<PullRequestCreateManyWithoutAuthorInput>;
-}
-
-export interface CommitCreateWithoutUserInput {
-  id?: Maybe<ID_Input>;
-  message: String;
-  date: String;
-  repo: RepoCreateOneWithoutCommitsInput;
-}
-
-export interface RepoCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  description?: Maybe<String>;
-  languages?: Maybe<RepoCreatelanguagesInput>;
-  stars?: Maybe<Int>;
-  link: String;
-  commits?: Maybe<CommitCreateManyWithoutRepoInput>;
 }
 
 export interface RepoScalarWhereInput {
@@ -740,14 +730,125 @@ export interface RepoScalarWhereInput {
   NOT?: Maybe<RepoScalarWhereInput[] | RepoScalarWhereInput>;
 }
 
+export interface RepoCreateWithoutOwnerInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoCreatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link: String;
+  commits?: Maybe<CommitCreateManyWithoutRepoInput>;
+  pullRequests?: Maybe<PullRequestCreateManyWithoutRepoInput>;
+}
+
+export interface RepoUpsertWithWhereUniqueWithoutOwnerInput {
+  where: RepoWhereUniqueInput;
+  update: RepoUpdateWithoutOwnerDataInput;
+  create: RepoCreateWithoutOwnerInput;
+}
+
 export interface CommitCreateManyWithoutRepoInput {
   create?: Maybe<CommitCreateWithoutRepoInput[] | CommitCreateWithoutRepoInput>;
   connect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
 }
 
-export interface RepoUpdateManyWithWhereNestedInput {
-  where: RepoScalarWhereInput;
-  data: RepoUpdateManyDataInput;
+export interface PullRequestUpdateManyWithoutRepoInput {
+  create?: Maybe<
+    PullRequestCreateWithoutRepoInput[] | PullRequestCreateWithoutRepoInput
+  >;
+  delete?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
+  connect?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
+  set?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
+  disconnect?: Maybe<
+    PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput
+  >;
+  update?: Maybe<
+    | PullRequestUpdateWithWhereUniqueWithoutRepoInput[]
+    | PullRequestUpdateWithWhereUniqueWithoutRepoInput
+  >;
+  upsert?: Maybe<
+    | PullRequestUpsertWithWhereUniqueWithoutRepoInput[]
+    | PullRequestUpsertWithWhereUniqueWithoutRepoInput
+  >;
+  deleteMany?: Maybe<
+    PullRequestScalarWhereInput[] | PullRequestScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | PullRequestUpdateManyWithWhereNestedInput[]
+    | PullRequestUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface PullRequestCreateManyWithoutRepoInput {
+  create?: Maybe<
+    PullRequestCreateWithoutRepoInput[] | PullRequestCreateWithoutRepoInput
+  >;
+  connect?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
+}
+
+export interface PullRequestUpdateWithWhereUniqueWithoutRepoInput {
+  where: PullRequestWhereUniqueInput;
+  data: PullRequestUpdateWithoutRepoDataInput;
+}
+
+export interface UserCreateOneWithoutPullRequestsInput {
+  create?: Maybe<UserCreateWithoutPullRequestsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface PullRequestUpdateWithoutRepoDataInput {
+  author?: Maybe<UserUpdateOneRequiredWithoutPullRequestsInput>;
+  title?: Maybe<String>;
+  merged?: Maybe<Boolean>;
+}
+
+export interface CommitCreateManyWithoutUserInput {
+  create?: Maybe<CommitCreateWithoutUserInput[] | CommitCreateWithoutUserInput>;
+  connect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutPullRequestsInput {
+  create?: Maybe<UserCreateWithoutPullRequestsInput>;
+  update?: Maybe<UserUpdateWithoutPullRequestsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutPullRequestsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface RepoCreateOneWithoutCommitsInput {
+  create?: Maybe<RepoCreateWithoutCommitsInput>;
+  connect?: Maybe<RepoWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutPullRequestsDataInput {
+  username?: Maybe<String>;
+  repos?: Maybe<RepoUpdateManyWithoutOwnerInput>;
+  commits?: Maybe<CommitUpdateManyWithoutUserInput>;
+}
+
+export interface UserCreateOneWithoutReposInput {
+  create?: Maybe<UserCreateWithoutReposInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface CommitUpdateManyWithoutUserInput {
+  create?: Maybe<CommitCreateWithoutUserInput[] | CommitCreateWithoutUserInput>;
+  delete?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  connect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  set?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  disconnect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
+  update?: Maybe<
+    | CommitUpdateWithWhereUniqueWithoutUserInput[]
+    | CommitUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | CommitUpsertWithWhereUniqueWithoutUserInput[]
+    | CommitUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
+  updateMany?: Maybe<
+    | CommitUpdateManyWithWhereNestedInput[]
+    | CommitUpdateManyWithWhereNestedInput
+  >;
 }
 
 export interface PullRequestCreateManyWithoutAuthorInput {
@@ -757,44 +858,9 @@ export interface PullRequestCreateManyWithoutAuthorInput {
   connect?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
 }
 
-export interface RepoUpdateManyDataInput {
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  languages?: Maybe<RepoUpdatelanguagesInput>;
-  stars?: Maybe<Int>;
-  link?: Maybe<String>;
-}
-
-export interface RepoCreateOneWithoutCommitsInput {
-  create?: Maybe<RepoCreateWithoutCommitsInput>;
-  connect?: Maybe<RepoWhereUniqueInput>;
-}
-
-export interface PullRequestUpdateManyWithoutAuthorInput {
-  create?: Maybe<
-    PullRequestCreateWithoutAuthorInput[] | PullRequestCreateWithoutAuthorInput
-  >;
-  delete?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
-  connect?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
-  set?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
-  disconnect?: Maybe<
-    PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput
-  >;
-  update?: Maybe<
-    | PullRequestUpdateWithWhereUniqueWithoutAuthorInput[]
-    | PullRequestUpdateWithWhereUniqueWithoutAuthorInput
-  >;
-  upsert?: Maybe<
-    | PullRequestUpsertWithWhereUniqueWithoutAuthorInput[]
-    | PullRequestUpsertWithWhereUniqueWithoutAuthorInput
-  >;
-  deleteMany?: Maybe<
-    PullRequestScalarWhereInput[] | PullRequestScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | PullRequestUpdateManyWithWhereNestedInput[]
-    | PullRequestUpdateManyWithWhereNestedInput
-  >;
+export interface CommitUpdateWithWhereUniqueWithoutUserInput {
+  where: CommitWhereUniqueInput;
+  data: CommitUpdateWithoutUserDataInput;
 }
 
 export interface RepoWhereInput {
@@ -865,14 +931,19 @@ export interface RepoWhereInput {
   commits_every?: Maybe<CommitWhereInput>;
   commits_some?: Maybe<CommitWhereInput>;
   commits_none?: Maybe<CommitWhereInput>;
+  owner?: Maybe<UserWhereInput>;
+  pullRequests_every?: Maybe<PullRequestWhereInput>;
+  pullRequests_some?: Maybe<PullRequestWhereInput>;
+  pullRequests_none?: Maybe<PullRequestWhereInput>;
   AND?: Maybe<RepoWhereInput[] | RepoWhereInput>;
   OR?: Maybe<RepoWhereInput[] | RepoWhereInput>;
   NOT?: Maybe<RepoWhereInput[] | RepoWhereInput>;
 }
 
-export interface PullRequestUpdateWithWhereUniqueWithoutAuthorInput {
-  where: PullRequestWhereUniqueInput;
-  data: PullRequestUpdateWithoutAuthorDataInput;
+export interface CommitUpdateWithoutUserDataInput {
+  message?: Maybe<String>;
+  date?: Maybe<String>;
+  repo?: Maybe<RepoUpdateOneRequiredWithoutCommitsInput>;
 }
 
 export interface CommitSubscriptionWhereInput {
@@ -886,17 +957,173 @@ export interface CommitSubscriptionWhereInput {
   NOT?: Maybe<CommitSubscriptionWhereInput[] | CommitSubscriptionWhereInput>;
 }
 
-export interface PullRequestUpdateWithoutAuthorDataInput {
-  title?: Maybe<String>;
-  merged?: Maybe<Boolean>;
+export interface RepoUpdateOneRequiredWithoutCommitsInput {
+  create?: Maybe<RepoCreateWithoutCommitsInput>;
+  update?: Maybe<RepoUpdateWithoutCommitsDataInput>;
+  upsert?: Maybe<RepoUpsertWithoutCommitsInput>;
+  connect?: Maybe<RepoWhereUniqueInput>;
 }
 
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   username: String;
-  repos?: Maybe<RepoCreateManyInput>;
+  repos?: Maybe<RepoCreateManyWithoutOwnerInput>;
   commits?: Maybe<CommitCreateManyWithoutUserInput>;
   pullRequests?: Maybe<PullRequestCreateManyWithoutAuthorInput>;
+}
+
+export interface RepoUpdateWithoutCommitsDataInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoUpdatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link?: Maybe<String>;
+  owner?: Maybe<UserUpdateOneRequiredWithoutReposInput>;
+  pullRequests?: Maybe<PullRequestUpdateManyWithoutRepoInput>;
+}
+
+export interface RepoCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoCreatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link: String;
+  commits?: Maybe<CommitCreateManyWithoutRepoInput>;
+  owner: UserCreateOneWithoutReposInput;
+  pullRequests?: Maybe<PullRequestCreateManyWithoutRepoInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutReposInput {
+  create?: Maybe<UserCreateWithoutReposInput>;
+  update?: Maybe<UserUpdateWithoutReposDataInput>;
+  upsert?: Maybe<UserUpsertWithoutReposInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface PullRequestCreateInput {
+  id?: Maybe<ID_Input>;
+  author: UserCreateOneWithoutPullRequestsInput;
+  title: String;
+  merged: Boolean;
+  repo: RepoCreateOneWithoutPullRequestsInput;
+}
+
+export interface UserUpdateWithoutReposDataInput {
+  username?: Maybe<String>;
+  commits?: Maybe<CommitUpdateManyWithoutUserInput>;
+  pullRequests?: Maybe<PullRequestUpdateManyWithoutAuthorInput>;
+}
+
+export interface RepoCreateManyWithoutOwnerInput {
+  create?: Maybe<RepoCreateWithoutOwnerInput[] | RepoCreateWithoutOwnerInput>;
+  connect?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
+}
+
+export interface PullRequestUpdateManyWithoutAuthorInput {
+  create?: Maybe<
+    PullRequestCreateWithoutAuthorInput[] | PullRequestCreateWithoutAuthorInput
+  >;
+  delete?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
+  connect?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
+  set?: Maybe<PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput>;
+  disconnect?: Maybe<
+    PullRequestWhereUniqueInput[] | PullRequestWhereUniqueInput
+  >;
+  update?: Maybe<
+    | PullRequestUpdateWithWhereUniqueWithoutAuthorInput[]
+    | PullRequestUpdateWithWhereUniqueWithoutAuthorInput
+  >;
+  upsert?: Maybe<
+    | PullRequestUpsertWithWhereUniqueWithoutAuthorInput[]
+    | PullRequestUpsertWithWhereUniqueWithoutAuthorInput
+  >;
+  deleteMany?: Maybe<
+    PullRequestScalarWhereInput[] | PullRequestScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | PullRequestUpdateManyWithWhereNestedInput[]
+    | PullRequestUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface CommitCreateWithoutRepoInput {
+  id?: Maybe<ID_Input>;
+  message: String;
+  user: UserCreateOneWithoutCommitsInput;
+  date: String;
+}
+
+export interface PullRequestUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PullRequestWhereUniqueInput;
+  data: PullRequestUpdateWithoutAuthorDataInput;
+}
+
+export interface UserCreateWithoutPullRequestsInput {
+  id?: Maybe<ID_Input>;
+  username: String;
+  repos?: Maybe<RepoCreateManyWithoutOwnerInput>;
+  commits?: Maybe<CommitCreateManyWithoutUserInput>;
+}
+
+export interface PullRequestUpdateWithoutAuthorDataInput {
+  title?: Maybe<String>;
+  merged?: Maybe<Boolean>;
+  repo?: Maybe<RepoUpdateOneRequiredWithoutPullRequestsInput>;
+}
+
+export interface RepoCreateWithoutCommitsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoCreatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link: String;
+  owner: UserCreateOneWithoutReposInput;
+  pullRequests?: Maybe<PullRequestCreateManyWithoutRepoInput>;
+}
+
+export interface RepoUpdateOneRequiredWithoutPullRequestsInput {
+  create?: Maybe<RepoCreateWithoutPullRequestsInput>;
+  update?: Maybe<RepoUpdateWithoutPullRequestsDataInput>;
+  upsert?: Maybe<RepoUpsertWithoutPullRequestsInput>;
+  connect?: Maybe<RepoWhereUniqueInput>;
+}
+
+export interface PullRequestCreateWithoutAuthorInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  merged: Boolean;
+  repo: RepoCreateOneWithoutPullRequestsInput;
+}
+
+export interface RepoUpdateWithoutPullRequestsDataInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  languages?: Maybe<RepoUpdatelanguagesInput>;
+  stars?: Maybe<Int>;
+  link?: Maybe<String>;
+  commits?: Maybe<CommitUpdateManyWithoutRepoInput>;
+  owner?: Maybe<UserUpdateOneRequiredWithoutReposInput>;
+}
+
+export interface UserUpdateInput {
+  username?: Maybe<String>;
+  repos?: Maybe<RepoUpdateManyWithoutOwnerInput>;
+  commits?: Maybe<CommitUpdateManyWithoutUserInput>;
+  pullRequests?: Maybe<PullRequestUpdateManyWithoutAuthorInput>;
+}
+
+export interface RepoUpsertWithoutPullRequestsInput {
+  update: RepoUpdateWithoutPullRequestsDataInput;
+  create: RepoCreateWithoutPullRequestsInput;
+}
+
+export interface PullRequestUpdateInput {
+  author?: Maybe<UserUpdateOneRequiredWithoutPullRequestsInput>;
+  title?: Maybe<String>;
+  merged?: Maybe<Boolean>;
+  repo?: Maybe<RepoUpdateOneRequiredWithoutPullRequestsInput>;
 }
 
 export interface PullRequestUpsertWithWhereUniqueWithoutAuthorInput {
@@ -905,9 +1132,9 @@ export interface PullRequestUpsertWithWhereUniqueWithoutAuthorInput {
   create: PullRequestCreateWithoutAuthorInput;
 }
 
-export interface PullRequestUpdateManyMutationInput {
-  title?: Maybe<String>;
-  merged?: Maybe<Boolean>;
+export interface UserCreateOneWithoutCommitsInput {
+  create?: Maybe<UserCreateWithoutCommitsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
 export interface PullRequestScalarWhereInput {
@@ -946,10 +1173,11 @@ export interface PullRequestScalarWhereInput {
   NOT?: Maybe<PullRequestScalarWhereInput[] | PullRequestScalarWhereInput>;
 }
 
-export interface CommitUpdateWithoutUserDataInput {
-  message?: Maybe<String>;
-  date?: Maybe<String>;
-  repo?: Maybe<RepoUpdateOneRequiredWithoutCommitsInput>;
+export interface PullRequestCreateWithoutRepoInput {
+  id?: Maybe<ID_Input>;
+  author: UserCreateOneWithoutPullRequestsInput;
+  title: String;
+  merged: Boolean;
 }
 
 export interface PullRequestUpdateManyWithWhereNestedInput {
@@ -957,9 +1185,11 @@ export interface PullRequestUpdateManyWithWhereNestedInput {
   data: PullRequestUpdateManyDataInput;
 }
 
-export interface RepoCreateManyInput {
-  create?: Maybe<RepoCreateInput[] | RepoCreateInput>;
-  connect?: Maybe<RepoWhereUniqueInput[] | RepoWhereUniqueInput>;
+export interface UserCreateWithoutReposInput {
+  id?: Maybe<ID_Input>;
+  username: String;
+  commits?: Maybe<CommitCreateManyWithoutUserInput>;
+  pullRequests?: Maybe<PullRequestCreateManyWithoutAuthorInput>;
 }
 
 export interface PullRequestUpdateManyDataInput {
@@ -967,47 +1197,20 @@ export interface PullRequestUpdateManyDataInput {
   merged?: Maybe<Boolean>;
 }
 
-export interface CommitCreateWithoutRepoInput {
-  id?: Maybe<ID_Input>;
-  message: String;
-  user: UserCreateOneWithoutCommitsInput;
-  date: String;
-}
-
-export interface UserUpsertWithoutCommitsInput {
-  update: UserUpdateWithoutCommitsDataInput;
-  create: UserCreateWithoutCommitsInput;
-}
-
-export interface RepoCreateWithoutCommitsInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  description?: Maybe<String>;
-  languages?: Maybe<RepoCreatelanguagesInput>;
-  stars?: Maybe<Int>;
-  link: String;
-}
-
-export interface RepoUpdateOneRequiredWithoutCommitsInput {
-  create?: Maybe<RepoCreateWithoutCommitsInput>;
-  update?: Maybe<RepoUpdateWithoutCommitsDataInput>;
-  upsert?: Maybe<RepoUpsertWithoutCommitsInput>;
-  connect?: Maybe<RepoWhereUniqueInput>;
-}
-
-export interface UserUpdateInput {
-  username?: Maybe<String>;
-  repos?: Maybe<RepoUpdateManyInput>;
-  commits?: Maybe<CommitUpdateManyWithoutUserInput>;
-  pullRequests?: Maybe<PullRequestUpdateManyWithoutAuthorInput>;
-}
-
-export interface RepoUpdateWithoutCommitsDataInput {
+export interface RepoUpdateInput {
   name?: Maybe<String>;
   description?: Maybe<String>;
   languages?: Maybe<RepoUpdatelanguagesInput>;
   stars?: Maybe<Int>;
   link?: Maybe<String>;
+  commits?: Maybe<CommitUpdateManyWithoutRepoInput>;
+  owner?: Maybe<UserUpdateOneRequiredWithoutReposInput>;
+  pullRequests?: Maybe<PullRequestUpdateManyWithoutRepoInput>;
+}
+
+export interface UserUpsertWithoutPullRequestsInput {
+  update: UserUpdateWithoutPullRequestsDataInput;
+  create: UserCreateWithoutPullRequestsInput;
 }
 
 export interface CommitUpsertWithWhereUniqueWithoutUserInput {
@@ -1021,67 +1224,14 @@ export interface RepoUpsertWithoutCommitsInput {
   create: RepoCreateWithoutCommitsInput;
 }
 
-export interface UserCreateOneWithoutCommitsInput {
-  create?: Maybe<UserCreateWithoutCommitsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface UserUpsertWithoutReposInput {
+  update: UserUpdateWithoutReposDataInput;
+  create: UserCreateWithoutReposInput;
 }
 
-export interface PullRequestCreateInput {
-  id?: Maybe<ID_Input>;
-  author: UserCreateOneWithoutPullRequestsInput;
-  title: String;
-  merged: Boolean;
-}
-
-export interface UserCreateWithoutPullRequestsInput {
-  id?: Maybe<ID_Input>;
-  username: String;
-  repos?: Maybe<RepoCreateManyInput>;
-  commits?: Maybe<CommitCreateManyWithoutUserInput>;
-}
-
-export interface CommitCreateManyWithoutUserInput {
-  create?: Maybe<CommitCreateWithoutUserInput[] | CommitCreateWithoutUserInput>;
-  connect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
-}
-
-export interface CommitUpdateManyMutationInput {
-  message?: Maybe<String>;
-  date?: Maybe<String>;
-}
-
-export interface RepoCreatelanguagesInput {
-  set?: Maybe<String[] | String>;
-}
-
-export interface CommitUpdateManyWithoutUserInput {
-  create?: Maybe<CommitCreateWithoutUserInput[] | CommitCreateWithoutUserInput>;
-  delete?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
-  connect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
-  set?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
-  disconnect?: Maybe<CommitWhereUniqueInput[] | CommitWhereUniqueInput>;
-  update?: Maybe<
-    | CommitUpdateWithWhereUniqueWithoutUserInput[]
-    | CommitUpdateWithWhereUniqueWithoutUserInput
-  >;
-  upsert?: Maybe<
-    | CommitUpsertWithWhereUniqueWithoutUserInput[]
-    | CommitUpsertWithWhereUniqueWithoutUserInput
-  >;
-  deleteMany?: Maybe<CommitScalarWhereInput[] | CommitScalarWhereInput>;
-  updateMany?: Maybe<
-    | CommitUpdateManyWithWhereNestedInput[]
-    | CommitUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface RepoUpdateInput {
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  languages?: Maybe<RepoUpdatelanguagesInput>;
-  stars?: Maybe<Int>;
-  link?: Maybe<String>;
-  commits?: Maybe<CommitUpdateManyWithoutRepoInput>;
+export interface UserUpsertWithoutCommitsInput {
+  update: UserUpdateWithoutCommitsDataInput;
+  create: UserCreateWithoutCommitsInput;
 }
 
 export interface RepoSubscriptionWhereInput {
@@ -1095,10 +1245,15 @@ export interface RepoSubscriptionWhereInput {
   NOT?: Maybe<RepoSubscriptionWhereInput[] | RepoSubscriptionWhereInput>;
 }
 
-export interface PullRequestCreateWithoutAuthorInput {
+export interface CommitCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
-  title: String;
-  merged: Boolean;
+  message: String;
+  date: String;
+  repo: RepoCreateOneWithoutCommitsInput;
+}
+
+export interface RepoCreatelanguagesInput {
+  set?: Maybe<String[] | String>;
 }
 
 export interface NodeNode {
@@ -1124,23 +1279,138 @@ export interface UserPreviousValuesSubscription
   username: () => Promise<AsyncIterator<String>>;
 }
 
-export interface PullRequestEdge {
-  node: PullRequest;
-  cursor: String;
+export interface AggregateCommit {
+  count: Int;
 }
 
-export interface PullRequestEdgePromise
-  extends Promise<PullRequestEdge>,
+export interface AggregateCommitPromise
+  extends Promise<AggregateCommit>,
     Fragmentable {
-  node: <T = PullRequestPromise>() => T;
-  cursor: () => Promise<String>;
+  count: () => Promise<Int>;
 }
 
-export interface PullRequestEdgeSubscription
-  extends Promise<AsyncIterator<PullRequestEdge>>,
+export interface AggregateCommitSubscription
+  extends Promise<AsyncIterator<AggregateCommit>>,
     Fragmentable {
-  node: <T = PullRequestSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Repo {
+  id: ID_Output;
+  name: String;
+  description?: String;
+  languages: String[];
+  stars?: Int;
+  link: String;
+}
+
+export interface RepoPromise extends Promise<Repo>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  languages: () => Promise<String[]>;
+  stars: () => Promise<Int>;
+  link: () => Promise<String>;
+  commits: <T = FragmentableArray<Commit>>(args?: {
+    where?: CommitWhereInput;
+    orderBy?: CommitOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  owner: <T = UserPromise>() => T;
+  pullRequests: <T = FragmentableArray<PullRequest>>(args?: {
+    where?: PullRequestWhereInput;
+    orderBy?: PullRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface RepoSubscription
+  extends Promise<AsyncIterator<Repo>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  languages: () => Promise<AsyncIterator<String[]>>;
+  stars: () => Promise<AsyncIterator<Int>>;
+  link: () => Promise<AsyncIterator<String>>;
+  commits: <T = Promise<AsyncIterator<CommitSubscription>>>(args?: {
+    where?: CommitWhereInput;
+    orderBy?: CommitOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  owner: <T = UserSubscription>() => T;
+  pullRequests: <T = Promise<AsyncIterator<PullRequestSubscription>>>(args?: {
+    where?: PullRequestWhereInput;
+    orderBy?: PullRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface RepoNullablePromise
+  extends Promise<Repo | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  languages: () => Promise<String[]>;
+  stars: () => Promise<Int>;
+  link: () => Promise<String>;
+  commits: <T = FragmentableArray<Commit>>(args?: {
+    where?: CommitWhereInput;
+    orderBy?: CommitOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  owner: <T = UserPromise>() => T;
+  pullRequests: <T = FragmentableArray<PullRequest>>(args?: {
+    where?: PullRequestWhereInput;
+    orderBy?: PullRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface PullRequestConnection {
+  pageInfo: PageInfo;
+  edges: PullRequestEdge[];
+}
+
+export interface PullRequestConnectionPromise
+  extends Promise<PullRequestConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PullRequestEdge>>() => T;
+  aggregate: <T = AggregatePullRequestPromise>() => T;
+}
+
+export interface PullRequestConnectionSubscription
+  extends Promise<AsyncIterator<PullRequestConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PullRequestEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePullRequestSubscription>() => T;
 }
 
 export interface RepoSubscriptionPayload {
@@ -1168,82 +1438,35 @@ export interface RepoSubscriptionPayloadSubscription
   previousValues: <T = RepoPreviousValuesSubscription>() => T;
 }
 
-export interface PullRequestConnection {
-  pageInfo: PageInfo;
-  edges: PullRequestEdge[];
+export interface RepoPreviousValues {
+  id: ID_Output;
+  name: String;
+  description?: String;
+  languages: String[];
+  stars?: Int;
+  link: String;
 }
 
-export interface PullRequestConnectionPromise
-  extends Promise<PullRequestConnection>,
+export interface RepoPreviousValuesPromise
+  extends Promise<RepoPreviousValues>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PullRequestEdge>>() => T;
-  aggregate: <T = AggregatePullRequestPromise>() => T;
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  languages: () => Promise<String[]>;
+  stars: () => Promise<Int>;
+  link: () => Promise<String>;
 }
 
-export interface PullRequestConnectionSubscription
-  extends Promise<AsyncIterator<PullRequestConnection>>,
+export interface RepoPreviousValuesSubscription
+  extends Promise<AsyncIterator<RepoPreviousValues>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PullRequestEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePullRequestSubscription>() => T;
-}
-
-export interface AggregateCommit {
-  count: Int;
-}
-
-export interface AggregateCommitPromise
-  extends Promise<AggregateCommit>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateCommitSubscription
-  extends Promise<AsyncIterator<AggregateCommit>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  languages: () => Promise<AsyncIterator<String[]>>;
+  stars: () => Promise<AsyncIterator<Int>>;
+  link: () => Promise<AsyncIterator<String>>;
 }
 
 export interface CommitEdge {
@@ -1279,6 +1502,27 @@ export interface AggregateUserSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
 export interface PageInfo {
   hasNextPage: Boolean;
   hasPreviousPage: Boolean;
@@ -1302,25 +1546,29 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface Commit {
@@ -1441,88 +1689,39 @@ export interface CommitPreviousValuesSubscription
   date: () => Promise<AsyncIterator<String>>;
 }
 
-export interface Repo {
-  id: ID_Output;
-  name: String;
-  description?: String;
-  languages: String[];
-  stars?: Int;
-  link: String;
-}
-
-export interface RepoPromise extends Promise<Repo>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  languages: () => Promise<String[]>;
-  stars: () => Promise<Int>;
-  link: () => Promise<String>;
-  commits: <T = FragmentableArray<Commit>>(args?: {
-    where?: CommitWhereInput;
-    orderBy?: CommitOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface RepoSubscription
-  extends Promise<AsyncIterator<Repo>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  languages: () => Promise<AsyncIterator<String[]>>;
-  stars: () => Promise<AsyncIterator<Int>>;
-  link: () => Promise<AsyncIterator<String>>;
-  commits: <T = Promise<AsyncIterator<CommitSubscription>>>(args?: {
-    where?: CommitWhereInput;
-    orderBy?: CommitOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface RepoNullablePromise
-  extends Promise<Repo | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  languages: () => Promise<String[]>;
-  stars: () => Promise<Int>;
-  link: () => Promise<String>;
-  commits: <T = FragmentableArray<Commit>>(args?: {
-    where?: CommitWhereInput;
-    orderBy?: CommitOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface UserEdge {
-  node: User;
+export interface PullRequestEdge {
+  node: PullRequest;
   cursor: String;
 }
 
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
+export interface PullRequestEdgePromise
+  extends Promise<PullRequestEdge>,
+    Fragmentable {
+  node: <T = PullRequestPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
+export interface PullRequestEdgeSubscription
+  extends Promise<AsyncIterator<PullRequestEdge>>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
+  node: <T = PullRequestSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
 }
 
 export interface PullRequest {
@@ -1536,6 +1735,7 @@ export interface PullRequestPromise extends Promise<PullRequest>, Fragmentable {
   author: <T = UserPromise>() => T;
   title: () => Promise<String>;
   merged: () => Promise<Boolean>;
+  repo: <T = RepoPromise>() => T;
 }
 
 export interface PullRequestSubscription
@@ -1545,6 +1745,7 @@ export interface PullRequestSubscription
   author: <T = UserSubscription>() => T;
   title: () => Promise<AsyncIterator<String>>;
   merged: () => Promise<AsyncIterator<Boolean>>;
+  repo: <T = RepoSubscription>() => T;
 }
 
 export interface PullRequestNullablePromise
@@ -1554,6 +1755,7 @@ export interface PullRequestNullablePromise
   author: <T = UserPromise>() => T;
   title: () => Promise<String>;
   merged: () => Promise<Boolean>;
+  repo: <T = RepoPromise>() => T;
 }
 
 export interface PullRequestPreviousValues {
@@ -1622,37 +1824,6 @@ export interface CommitConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<CommitEdgeSubscription>>>() => T;
   aggregate: <T = AggregateCommitSubscription>() => T;
-}
-
-export interface RepoPreviousValues {
-  id: ID_Output;
-  name: String;
-  description?: String;
-  languages: String[];
-  stars?: Int;
-  link: String;
-}
-
-export interface RepoPreviousValuesPromise
-  extends Promise<RepoPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  languages: () => Promise<String[]>;
-  stars: () => Promise<Int>;
-  link: () => Promise<String>;
-}
-
-export interface RepoPreviousValuesSubscription
-  extends Promise<AsyncIterator<RepoPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  languages: () => Promise<AsyncIterator<String[]>>;
-  stars: () => Promise<AsyncIterator<Int>>;
-  link: () => Promise<AsyncIterator<String>>;
 }
 
 export interface User {
@@ -1760,6 +1931,23 @@ export interface UserNullablePromise
   }) => T;
 }
 
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
 export interface AggregatePullRequest {
   count: Int;
 }
@@ -1798,23 +1986,23 @@ The `Int` scalar type represents non-fractional signed whole numeric values. Int
 */
 export type Int = number;
 
-export type Long = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
 export type ID_Input = string | number;
 export type ID_Output = string;
 
+export type Long = string;
+
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
 export type String = string;
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
 
 /**
  * Model Metadata
